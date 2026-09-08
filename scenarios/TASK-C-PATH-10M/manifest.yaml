@@ -1,5 +1,6 @@
 schema_version: "1.0"
 artifact_type: scenario_candidate
+qa_profile: task_c
 scenario_id: TASK-C-PATH-10M
 change_request_id: CR-2026-001
 status: reviewed_release_candidate

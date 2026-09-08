@@ -213,6 +213,9 @@ tempCodeRunnerFile.py
 model/base-v2.4.5-desktop-recalc.xlsx
 model/~$base-v2.4.5-desktop-recalc.xlsx
 
+# Orchestrator transcripts and checkpoints are local run artifacts and may contain model context.
+reports/runs/
+
 # Native Excel authoring copy. Canonical scenario candidates are zero-shared-formula packages.
 scenarios/**/task-c-path-to-10m-working.xlsx
 
