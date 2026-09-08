@@ -204,7 +204,8 @@ class SubscriptionCLIAdapter:
             environment.pop(name, None)
         try:
             completed = self.runner(command, input=prompt, text=True, capture_output=True,
-                                    timeout=self.timeout, cwd=ROOT, env=environment)
+                                    timeout=self.timeout, cwd=ROOT, env=environment,
+                                    encoding="utf-8", errors="replace")
         except subprocess.TimeoutExpired as error:
             raise RuntimeError(f"{self.service} CLI timed out after {self.timeout} seconds") from error
         combined = f"{completed.stdout}\n{completed.stderr}"
