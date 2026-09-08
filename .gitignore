@@ -209,6 +209,10 @@ tempCodeRunnerFile.py
 # PyPI configuration file
 .pypirc
 
+# Desktop Excel verification evidence is local-only. Never replace the canonical Base with it.
+model/base-v2.4.5-desktop-recalc.xlsx
+model/~$base-v2.4.5-desktop-recalc.xlsx
+
 # Marimo
 marimo/_static/
 marimo/_lsp/

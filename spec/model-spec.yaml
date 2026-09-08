@@ -1,11 +1,19 @@
 version: 1
 model_name: PMC underwriting model
 base_workbook:
-  path: model/base-v2.4.4.xlsx
-  filename: base-v2.4.4.xlsx
-  version: v2.4.4
-  sha256: afeca42fb998ed83d7b6ba292ce9386c35bbf5b67006785ada03a5a424fe5577
+  path: model/base-v2.4.5.xlsx
+  filename: base-v2.4.5.xlsx
+  version: v2.4.5
+  sha256: 5764fa6dc28137bf4cb2348e04400bd73a4663cb22ee14a546ae60e9082f4e15
   immutable: true
+  status: approved_frozen_base
+  desktop_excel_gate: PASS
+  desktop_verification_copy_sha256: 113f91b0d1e62bfb460928ef4c8faca235cfeccd43a5b3ccad67e65e710ba1f0
+  desktop_verification_copy_is_evidence_only: true
+superseded_bases:
+  - version: v2.4.4
+    sha256: afeca42fb998ed83d7b6ba292ce9386c35bbf5b67006785ada03a5a424fe5577
+    reason: Shared-formula serialization; 2,181 shared records in 204 groups
 tab_order:
   - IC Summary
   - Base Case Bridge
@@ -68,5 +76,6 @@ candidate_contract:
     - review_findings
 scenario_policy:
   must_derive_from_approved_base: true
-  required_base_sha256: afeca42fb998ed83d7b6ba292ce9386c35bbf5b67006785ada03a5a424fe5577
+  required_base_sha256: 5764fa6dc28137bf4cb2348e04400bd73a4663cb22ee14a546ae60e9082f4e15
   base_architecture_changes_allowed: false
+  scenario_creation_enabled: true

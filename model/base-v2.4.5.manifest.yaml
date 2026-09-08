@@ -1,0 +1,33 @@
+workbook: base-v2.4.5.xlsx
+workbook_sha256: 5764fa6dc28137bf4cb2348e04400bd73a4663cb22ee14a546ae60e9082f4e15
+version: v2.4.5
+status: approved_frozen_base
+immutable: true
+supersedes_version: v2.4.4
+supersedes_sha256: afeca42fb998ed83d7b6ba292ce9386c35bbf5b67006785ada03a5a424fe5577
+repair_scope: Expand shared formulas into explicit standalone formulas
+output_snapshot_file: ../reports/base-v2.4.5-output-snapshot.json
+structural_snapshot_file: ../reports/base-v2.4.5-structural-snapshot.json
+formula_dependency_snapshot_file: ../reports/base-v2.4.5-formula-dependency-snapshot.json
+test_report_file: ../reports/base-v2.4.5-release-gate-report.json
+desktop_excel_gate_report_file: ../reports/base-v2.4.5-desktop-excel-gate.json
+desktop_excel_gate: PASS
+desktop_verification_copy:
+  sha256: 113f91b0d1e62bfb460928ef4c8faca235cfeccd43a5b3ccad67e65e710ba1f0
+  evidence_only: true
+  canonical_workbook: false
+  shared_formula_records: 2181
+  shared_formula_groups: 204
+output_snapshot:
+  base_y7_ebitda: 2910357.78008562
+  total_platform_revenue: 34074147.2101306
+  platform_margin: 0.0854124906527474
+  leadership_redundancy: 0
+  base_nearshore_saving: 1532367.55169806
+  seven_year_moic: 0.498198750864880
+  true_seven_year_irr: -0.159205307136489
+economic_invariants:
+  - {key: leadership_redundancy, operator: eq, value: 0}
+scenario_tests:
+  - name: package_only_repair
+    passed: true

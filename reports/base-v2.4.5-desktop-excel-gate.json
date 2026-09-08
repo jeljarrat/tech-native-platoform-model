@@ -1,0 +1,35 @@
+{
+  "canonical_workbook": "model/base-v2.4.5.xlsx",
+  "canonical_sha256": "5764fa6dc28137bf4cb2348e04400bd73a4663cb22ee14a546ae60e9082f4e15",
+  "desktop_excel_gate": "PASS",
+  "desktop_verification_copy": {
+    "canonical": false,
+    "evidence_only": true,
+    "sha256": "113f91b0d1e62bfb460928ef4c8faca235cfeccd43a5b3ccad67e65e710ba1f0",
+    "shared_formula_groups": 204,
+    "shared_formula_records": 2181
+  },
+  "comparison": {
+    "all_66_controls_match": true,
+    "aggregate": "57 of 66",
+    "status": "REVIEW",
+    "formula_count_before": 8966,
+    "formula_count_after": 8966,
+    "formula_differences": 0,
+    "hardcoded_value_differences": 0,
+    "cached_formula_value_differences": 0,
+    "golden_outputs_passed": 7,
+    "golden_outputs_failed": 0,
+    "formula_errors": 0,
+    "chart_parts_before": 2,
+    "chart_parts_after": 2,
+    "chart_xml_differences": 0,
+    "excel_repair_or_content_warnings_observed": false,
+    "charts_rendered_correctly": true
+  },
+  "canonical_package": {
+    "shared_formula_records": 0,
+    "shared_formula_groups": 0
+  },
+  "release_instruction": "Freeze the canonical zero-shared workbook. Never replace it with the desktop verification copy merely because Excel reserialized formulas."
+}

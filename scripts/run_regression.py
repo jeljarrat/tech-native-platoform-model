@@ -20,7 +20,7 @@ def main() -> int:
     parser.add_argument("--output", type=Path, default=ROOT / "reports" / "test-report.json")
     args = parser.parse_args()
     manifest = load_yaml(args.manifest)
-    workbook = (args.manifest.parent / manifest["workbook"]).resolve()
+    workbook = (args.manifest.parent / manifest.get("workbook_path", manifest["workbook"])).resolve()
     spec = load_yaml(ROOT / "spec" / "model-spec.yaml")
     results = []
     for suite in (package_tests, formula_tests, economic_tests, presentation_tests):
@@ -32,4 +32,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

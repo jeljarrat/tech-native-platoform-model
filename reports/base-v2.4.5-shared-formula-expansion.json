@@ -1,0 +1,126 @@
+{
+  "changed_members": [
+    "xl/worksheets/sheet1.xml",
+    "xl/worksheets/sheet2.xml",
+    "xl/worksheets/sheet3.xml",
+    "xl/worksheets/sheet5.xml",
+    "xl/worksheets/sheet7.xml",
+    "xl/worksheets/sheet8.xml",
+    "xl/worksheets/sheet9.xml",
+    "xl/worksheets/sheet10.xml"
+  ],
+  "formula_count_after": 8966,
+  "formula_count_before": 8966,
+  "output_sha256": "5764fa6dc28137bf4cb2348e04400bd73a4663cb22ee14a546ae60e9082f4e15",
+  "shared_formula_groups_after": 0,
+  "shared_formula_groups_before": 204,
+  "shared_formula_records_after": 0,
+  "shared_formula_records_before": 2181,
+  "source_sha256": "afeca42fb998ed83d7b6ba292ce9386c35bbf5b67006785ada03a5a424fe5577",
+  "worksheets": {
+    "xl/worksheets/sheet1.xml": {
+      "formula_count_after": 257,
+      "formula_count_before": 257,
+      "shared_formula_groups_after": 0,
+      "shared_formula_groups_before": 3,
+      "shared_formula_records_after": 0,
+      "shared_formula_records_before": 25
+    },
+    "xl/worksheets/sheet10.xml": {
+      "formula_count_after": 1946,
+      "formula_count_before": 1946,
+      "shared_formula_groups_after": 0,
+      "shared_formula_groups_before": 51,
+      "shared_formula_records_after": 0,
+      "shared_formula_records_before": 545
+    },
+    "xl/worksheets/sheet11.xml": {
+      "formula_count_after": 214,
+      "formula_count_before": 214,
+      "shared_formula_groups_after": 0,
+      "shared_formula_groups_before": 0,
+      "shared_formula_records_after": 0,
+      "shared_formula_records_before": 0
+    },
+    "xl/worksheets/sheet12.xml": {
+      "formula_count_after": 138,
+      "formula_count_before": 138,
+      "shared_formula_groups_after": 0,
+      "shared_formula_groups_before": 0,
+      "shared_formula_records_after": 0,
+      "shared_formula_records_before": 0
+    },
+    "xl/worksheets/sheet13.xml": {
+      "formula_count_after": 0,
+      "formula_count_before": 0,
+      "shared_formula_groups_after": 0,
+      "shared_formula_groups_before": 0,
+      "shared_formula_records_after": 0,
+      "shared_formula_records_before": 0
+    },
+    "xl/worksheets/sheet2.xml": {
+      "formula_count_after": 916,
+      "formula_count_before": 916,
+      "shared_formula_groups_after": 0,
+      "shared_formula_groups_before": 7,
+      "shared_formula_records_after": 0,
+      "shared_formula_records_before": 77
+    },
+    "xl/worksheets/sheet3.xml": {
+      "formula_count_after": 66,
+      "formula_count_before": 66,
+      "shared_formula_groups_after": 0,
+      "shared_formula_groups_before": 2,
+      "shared_formula_records_after": 0,
+      "shared_formula_records_before": 48
+    },
+    "xl/worksheets/sheet4.xml": {
+      "formula_count_after": 32,
+      "formula_count_before": 32,
+      "shared_formula_groups_after": 0,
+      "shared_formula_groups_before": 0,
+      "shared_formula_records_after": 0,
+      "shared_formula_records_before": 0
+    },
+    "xl/worksheets/sheet5.xml": {
+      "formula_count_after": 394,
+      "formula_count_before": 394,
+      "shared_formula_groups_after": 0,
+      "shared_formula_groups_before": 6,
+      "shared_formula_records_after": 0,
+      "shared_formula_records_before": 55
+    },
+    "xl/worksheets/sheet6.xml": {
+      "formula_count_after": 40,
+      "formula_count_before": 40,
+      "shared_formula_groups_after": 0,
+      "shared_formula_groups_before": 0,
+      "shared_formula_records_after": 0,
+      "shared_formula_records_before": 0
+    },
+    "xl/worksheets/sheet7.xml": {
+      "formula_count_after": 1509,
+      "formula_count_before": 1509,
+      "shared_formula_groups_after": 0,
+      "shared_formula_groups_before": 48,
+      "shared_formula_records_after": 0,
+      "shared_formula_records_before": 525
+    },
+    "xl/worksheets/sheet8.xml": {
+      "formula_count_after": 2080,
+      "formula_count_before": 2080,
+      "shared_formula_groups_after": 0,
+      "shared_formula_groups_before": 63,
+      "shared_formula_records_after": 0,
+      "shared_formula_records_before": 645
+    },
+    "xl/worksheets/sheet9.xml": {
+      "formula_count_after": 1374,
+      "formula_count_before": 1374,
+      "shared_formula_groups_after": 0,
+      "shared_formula_groups_before": 24,
+      "shared_formula_records_after": 0,
+      "shared_formula_records_before": 261
+    }
+  }
+}
