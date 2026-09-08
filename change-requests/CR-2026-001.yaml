@@ -1,0 +1,58 @@
+change_request_id: CR-2026-001
+title: Path to $10m EBITDA scenario
+status: approved
+requester: Jack
+created_at: 2026-09-08
+base:
+  version: v2.4.5
+  sha256: 5764fa6dc28137bf4cb2348e04400bd73a4663cb22ee14a546ae60e9082f4e15
+scope:
+  authorized_changes:
+    - Create a scenario workbook derived from the frozen Base without changing the Base file.
+    - Add the TC-27 existing target recurring/reimbursed revenue reconciliation for acquired units only.
+    - Model acquired and organic cohorts separately with surviving-unit service maturity.
+    - Add scenario-only R004 rationalization after a 12-month transition using modeled seller payroll.
+    - Use the stated nearshore bounds, service streams, organic-growth costs, and Layers 1-3 bounds.
+    - Add Task C scenario, bridge, sensitivity, controls, evidence, and release-memo schedules.
+  prohibited_changes:
+    - Modify model/base-v2.4.5.xlsx or its frozen assumptions, cadence, deal EBITDA, entry multiples, or required HoldCo roles.
+    - Apply TC-27 revenue to organic wins or add EBITDA through TC-27.
+    - Delete required roles, zero HoldCo G&A, exceed approved nearshore/adoption/span bounds, or create pre-close buyer economics.
+    - Replace the canonical zero-shared workbook with a desktop Excel verification copy.
+assumptions:
+  - id: TC27-REVENUE-RECONCILIATION
+    tag: A/OQ
+    principal_decision: Jack
+    value: Assumed existing acquired-target other recurring/reimbursed revenue is solved so $128 EBITDA/unit equals a 15.0% acquisition margin; target GL and QoE evidence are required before factual classification.
+  - id: R004-TRANSITION
+    tag: A
+    value: Scenario-only founder/head-of-operations rationalization begins after a 12-month transition by acquisition vintage.
+  - id: NEARSHORE-OPTIONAL-BOUNDS
+    tag: A
+    value: R009 may reach 100%; operating R013 may reach 100%; H006 and H003 remain onshore.
+  - id: SERVICE-STREAMS
+    tag: C/OQ
+    value: Project/construction, maintenance/turns, procurement/insurance, and resident/ancillary use the approved per-unit economics, caps, and ramps.
+  - id: ORGANIC-UPLIFT
+    tag: A
+    value: Organic uplift may range from the frozen 4% Base level to 16%, with incremental platform BD and implementation costs; the selected Task C case remains at Base, so incremental uplift is 0 percentage points and 0% of the incremental authorized range.
+  - id: LAYERS
+    tag: A
+    value: Layers 1-3 are upper bounds and must ramp independently for acquired and organic cohorts.
+evidence_ids:
+  - EVD-2026-TC-FROZEN-BASE
+  - EVD-2026-TC-SERVICE-BOUNDS
+decision_ids:
+  - DEC-2026-TC-LAUNCH
+  - DEC-2026-TC27-CLASSIFICATION
+acceptance_criteria:
+  - Y7 EBITDA is at least $10.0m.
+  - Managed units do not exceed 50,000 through Y10.
+  - Acquisition margin equals exactly 15.0000% with acquired EBITDA fixed.
+  - Platform EBITDA margin is between 15.0% and 17.5% using all revenue entering EBITDA.
+  - Total debt/consolidated EBITDA is no more than 3.5x; senior debt/consolidated EBITDA is no more than 2.75x where applicable.
+  - Consolidated DSCR/FCCR is at least 1.25x.
+  - Acquisition cadence, deal EBITDA, and entry multiples remain locked to Base.
+  - All deterministic and supervisor release blockers are cleared.
+scenario_ids:
+  - TASK-C-PATH-10M

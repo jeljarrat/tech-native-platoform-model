@@ -1,0 +1,68 @@
+schema_version: "1.0"
+scenario_id: TASK-C-PATH-10M
+change_request_id: CR-2026-001
+status: reviewed_release_candidate
+base:
+  path: model/base-v2.4.5.xlsx
+  version: v2.4.5
+  sha256: 5764fa6dc28137bf4cb2348e04400bd73a4663cb22ee14a546ae60e9082f4e15
+  immutable: true
+objective:
+  type: lexicographic_least_aggressive
+  target_y7_ebitda: 10000000
+  priority_order: [TC27, base_nearshore, R004, optional_nearshore, organic_uplift, layers, services, optional_hr_it]
+constraints:
+  max_units_y1_y10: 50000
+  acquisition_margin: 0.15
+  acquisition_margin_tolerance: 1.0e-12
+  platform_margin_min: 0.15
+  platform_margin_max: 0.175
+  total_debt_to_ebitda_max: 3.5
+  senior_debt_to_ebitda_max: 2.75
+  dscr_fccr_min: 1.25
+locked_base_economics:
+  acquisition_cadence: true
+  deal_ebitda: true
+  entry_multiples: true
+  exit_multiple_base: 9.5
+  holdco_roles_and_gna: true
+  span_of_control: base_column_w
+tc27:
+  line_name: Existing target other recurring / reimbursed revenue required to reconcile acquisition margin
+  acquired_ebitda_per_unit: 128.0
+  required_acquired_revenue_per_unit: 853.333333333333
+  frozen_acquired_revenue_per_unit: 653.482944202758
+  applies_to: contracted_acquired_units_only
+  incremental_ebitda: 0
+  evidence_tag: "[A]/[OQ]"
+  principal_decision: Jack
+  fact_conversion_requirement: Target GL, contracts, invoices/collections, QoE, unit counts, recurring-retention support, and proof of no duplication with frozen fee revenue.
+leadership:
+  role_id: R004
+  timing: after_12_months
+  source: actual_modeled_seller_payroll
+  selected: {Downside: 0.70, Base: 0.85, Upside: 0.90}
+  tag: "[A]/[OQ]"
+  note: Frozen Base zero founder/C-suite credit remains conservative; update when an actual target census/payroll register identifies redundant compensation.
+nearshore:
+  frozen_base_roles: [R006, R007, R008]
+  delivered_cost_index: 0.40
+  optional_selected: {R009: 0.0, R013: 0.0}
+  required_onshore: [H003, H006]
+organic_growth:
+  frozen_uplift: 0.04
+  selected: {Downside: 0.04, Base: 0.04, Upside: 0.04}
+  incremental_uplift_above_base: 0.0
+  incremental_authorized_range_used: 0.0
+service_streams:
+  project_construction: {revenue_per_unit: 100, cost_per_unit: 70, adoption_cap: 0.60, ramp_years: 3, episodic: true, tag: "[C]/[OQ]", selected: {Downside: 0.90, Base: 1.0, Upside: 1.0}}
+  maintenance_turns: {revenue_per_unit: 450, cost_per_unit: 383, adoption_cap: 0.55, ramp_years: 4, episodic: false, tag: "[A]/[OQ]", selected: {Downside: 0.90, Base: 1.0, Upside: 1.0}}
+  procurement_insurance: {revenue_per_unit: 80, cost_per_unit: 20, adoption_cap: 0.70, ramp_years: 2, episodic: false, tag: "[C]/[OQ]", selected: {Downside: 0.0, Base: 0.0, Upside: 0.0}, overlap_control: vendor_savings_zero_overlap}
+  resident_ancillary: {revenue_per_unit: 50, cost_per_unit: 15, adoption_cap: 0.50, ramp_years: 3, episodic: false, tag: "[C]/[OQ]", selected: {Downside: 0.0, Base: 0.256387940456041, Upside: 0.142414433808128}}
+layers:
+  layer_1: {revenue_per_unit: 90, cost_per_unit: 22, adoption_cap: 0.85, ramp_years: 3, selected: {Downside: 0.90, Base: 1.0, Upside: 1.0}, tag: "[A]"}
+  layer_2: {revenue_per_unit: 140, non_delivery_cost_per_unit: 48, delivery_payroll_required: true, adoption_cap: 0.85, ramp_years: 3, selected: {Downside: 0.0, Base: 0.0, Upside: 0.0}, tag: "[A]"}
+  layer_3: {revenue_per_unit: 25, cost_per_unit: 4, adoption_cap: 0.85, ramp_years: 3, selected: {Downside: 0.0, Base: 0.0, Upside: 0.0}, tag: "[A]"}
+case_order: [Downside, Base, Upside]
+authorized_change_scope: append_only_scenario_tabs
+scenario_tabs: [TC Inputs, TC Cohorts, TC Economics, TC Debt & Returns, TC Output, TC Sensitivity]

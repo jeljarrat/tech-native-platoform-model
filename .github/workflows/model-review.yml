@@ -30,6 +30,9 @@ jobs:
       - name: Run candidate QA when requested
         if: ${{ inputs.manifest != '' }}
         run: python scripts/run_regression.py --manifest "${{ inputs.manifest }}" --output reports/test-report.json
+      - name: Run Task C independent QA when present
+        if: ${{ hashFiles('scenarios/TASK-C-PATH-10M/task-c-path-to-10m-v1.xlsx') != '' }}
+        run: python scripts/run_task_c_qa.py
       - name: Agent integration placeholder
         run: |
           echo "TODO: connect Claude with ANTHROPIC_API_KEY"
@@ -41,4 +44,3 @@ jobs:
           name: model-review-reports
           path: reports/
           if-no-files-found: warn
-
