@@ -367,7 +367,9 @@ class Orchestrator:
         """Commit declared builder artifacts and the audit trail, then open/update a PR."""
         if not self.git_enabled or self.dry_run:
             return
-        paths = {self.run_dir, *self.generated_paths}
+        # Run transcripts are intentionally local/ignored; commit only the approved
+        # change request and files explicitly declared by the builder.
+        paths = {self.change_request_path, *self.generated_paths}
         for path in sorted(paths, key=str):
             resolved = resolve_repo_path(path)
             self._git("add", "--", str(resolved.relative_to(ROOT)))
