@@ -220,11 +220,31 @@ class ClaudeSubscriptionAdapter(SubscriptionCLIAdapter):
 
     def call(self, request: dict[str, Any]) -> tuple[dict[str, Any], dict[str, Any]]:
         prompt = request["system"] + "\n\n" + request["user"]
+        schema = {
+            "type": "object", "additionalProperties": False,
+            "required": ["summary", "candidate_manifest", "files_changed", "assumptions_used",
+                         "findings_addressed", "escalation", "operations"],
+            "properties": {
+                "summary": {"type": "string"},
+                "candidate_manifest": {"type": "string"},
+                "files_changed": {"type": "array", "items": {"type": "string"}},
+                "assumptions_used": {"type": "array", "items": {}},
+                "findings_addressed": {"type": "array", "items": {}},
+                "escalation": {"type": ["object", "null"]},
+                "operations": {"type": "array", "items": {"type": "object"}},
+            },
+        }
         completed = self._run([self.executable, "-p", "--output-format", "json",
-                               "--permission-mode", "plan"], prompt)
+                               "--json-schema", json.dumps(schema), "--permission-mode", "plan"], prompt)
         outer = extract_json(completed.stdout)
-        text = outer.get("result", "") if isinstance(outer, dict) else str(outer)
-        result = extract_json(text) if isinstance(text, str) else text
+        structured = outer.get("structured_output") if isinstance(outer, dict) else None
+        if structured is not None:
+            result = structured
+        else:
+            text = outer.get("result", "") if isinstance(outer, dict) else str(outer)
+            result = extract_json(text) if isinstance(text, str) else text
+        if not isinstance(result, dict):
+            raise TypeError(f"Claude builder result must be an object, got {type(result).__name__}")
         return result, {"exit_code": completed.returncode, "stdout": redact(completed.stdout),
                         "stderr": redact(completed.stderr)}
 
@@ -547,10 +567,10 @@ class Orchestrator:
                             builder, raw_builder = self.fallback_builder.call(builder_request)
                         else:
                             return self._pause(error.service, cycle, "BUILDING", error.output)
-                    applied = apply_builder_operations(builder)
-                    builder.setdefault("files_changed", []).extend(applied)
                     write_json(cycle_dir / "claude-response.json", raw_builder)
                     write_json(cycle_dir / "builder-result.json", builder)
+                    applied = apply_builder_operations(builder)
+                    builder.setdefault("files_changed", []).extend(applied)
                     for value in builder.get("files_changed", []):
                         self.generated_paths.add(resolve_repo_path(value))
                 else:
