@@ -1,0 +1,129 @@
+{
+  "manifest": "model\\base-v2.4.4.manifest.yaml",
+  "passed": false,
+  "results": [
+    {
+      "details": "actual=['IC Summary', 'Base Case Bridge', 'Evidence & Market', 'Assumptions', 'Acquisition Schedule', 'Anchor QoE', 'Revenue & Durability', 'Org & Capacity', 'Operating Case', 'Transaction & Liquidity', 'Returns', 'Controls', 'Version Bridge']; expected=['IC Summary', 'Base Case Bridge', 'Evidence & Market', 'Assumptions', 'Acquisition Schedule', 'Anchor QoE', 'Revenue & Durability', 'Org & Capacity', 'Operating Case', 'Transaction & Liquidity', 'Returns', 'Controls', 'Version Bridge']",
+      "findings": [],
+      "passed": true,
+      "test": "exact_tab_order"
+    },
+    {
+      "details": "external_links=0",
+      "findings": [],
+      "passed": true,
+      "test": "external_links_zero"
+    },
+    {
+      "details": "Merged ranges must be zero",
+      "findings": [],
+      "passed": true,
+      "test": "merged_cells_zero"
+    },
+    {
+      "details": "Manifest workbook name must match candidate",
+      "findings": [],
+      "passed": true,
+      "test": "manifest_reconciliation"
+    },
+    {
+      "details": "Workbook, manifest, and approved Base SHA-256 must match",
+      "findings": [],
+      "passed": true,
+      "test": "version_hash_checks"
+    },
+    {
+      "details": "charts=2 drawings=2",
+      "findings": [],
+      "passed": true,
+      "test": "chart_package_checks"
+    },
+    {
+      "details": "shared_formulas=2181",
+      "findings": [
+        {
+          "blocks_release": true,
+          "category": "shared_formulas_zero",
+          "cell_or_range": null,
+          "economic_effect": "Requires reviewer assessment",
+          "finding_id": "FRM-001",
+          "issue": "shared_formulas=2181",
+          "required_fix": "Correct formulas or formatting",
+          "required_test": "shared_formulas_zero",
+          "requires_jack_decision": false,
+          "severity": "high",
+          "sheet": null
+        }
+      ],
+      "passed": false,
+      "test": "shared_formulas_zero"
+    },
+    {
+      "details": "errors=[]",
+      "findings": [],
+      "passed": true,
+      "test": "formula_errors_zero"
+    },
+    {
+      "details": "missing_caches=[]",
+      "findings": [],
+      "passed": true,
+      "test": "missing_caches_zero"
+    },
+    {
+      "details": "long_formulas=[]",
+      "findings": [],
+      "passed": true,
+      "test": "long_formulas_zero"
+    },
+    {
+      "details": "wrapped_cells=[]",
+      "findings": [],
+      "passed": true,
+      "test": "wrapped_populated_cells_zero"
+    },
+    {
+      "details": "bad_formula_colors=[]",
+      "findings": [],
+      "passed": true,
+      "test": "formula_color_convention"
+    },
+    {
+      "details": "dependencies={'IC Summary': ['Acquisition Schedule', 'Anchor QoE', 'Assumptions', 'Controls', 'Operating Case', 'Org & Capacity', 'Returns', 'Revenue & Durability', 'Transaction & Liquidity'], 'Base Case Bridge': ['Assumptions', 'Operating Case', 'Org & Capacity', 'Returns', 'Revenue & Durability', 'Transaction & Liquidity'], 'Assumptions': ['Evidence & Market'], 'Acquisition Schedule': ['Assumptions', 'Evidence & Market'], 'Anchor QoE': ['Acquisition Schedule', 'Assumptions'], 'Revenue & Durability': ['Acquisition Schedule', 'Anchor QoE', 'Assumptions'], 'Org & Capacity': ['Acquisition Schedule', 'Assumptions', 'Evidence & Market', 'Revenue & Durability'], 'Operating Case': ['Acquisition Schedule', 'Assumptions', 'Org & Capacity', 'Revenue & Durability'], 'Transaction & Liquidity': ['Acquisition Schedule', 'Assumptions', 'Operating Case'], 'Returns': ['Acquisition Schedule', 'Assumptions', 'Operating Case', 'Revenue & Durability', 'Transaction & Liquidity'], 'Controls': ['Acquisition Schedule', 'Anchor QoE', 'Assumptions', 'Evidence & Market', 'Operating Case', 'Org & Capacity', 'Returns', 'Revenue & Durability', 'Transaction & Liquidity']}",
+      "findings": [],
+      "passed": true,
+      "test": "dependency_graph"
+    },
+    {
+      "details": "Formula patterns must match manifest baseline",
+      "findings": [],
+      "passed": true,
+      "test": "formula_pattern_regression"
+    },
+    {
+      "details": "Snapshot must match approved golden outputs",
+      "findings": [],
+      "passed": true,
+      "test": "golden_output_checks"
+    },
+    {
+      "details": "All declared economic invariants must hold",
+      "findings": [],
+      "passed": true,
+      "test": "economic_invariants"
+    },
+    {
+      "details": "All declared scenario tests must pass",
+      "findings": [],
+      "passed": true,
+      "test": "scenario_tests"
+    },
+    {
+      "details": "Deterministic presentation checks executed by package/formula suites",
+      "findings": [],
+      "passed": true,
+      "test": "presentation_contract"
+    }
+  ],
+  "workbook": "C:\\Users\\Jack Eljarrat\\Documents\\JackOS\\tech-native-platoform-model\\model\\base-v2.4.4.xlsx"
+}

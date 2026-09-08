@@ -1,6 +1,10 @@
 version: 1
 source_of_truth_branch: main
 workbook_edits_require_branch: true
+base_workbook_immutable: true
+approved_base_sha256: afeca42fb998ed83d7b6ba292ce9386c35bbf5b67006785ada03a5a424fe5577
+base_hash_mismatch_blocks_release: true
+scenario_base_hash_mismatch_blocks_release: true
 unique_change_request_id_required: true
 max_agent_cycles_before_escalation: 2
 mandatory_tests:
@@ -31,4 +35,3 @@ approval:
   require_all_mandatory_tests: true
   require_zero_release_blockers: true
   require_zero_unauthorized_changes: true
-

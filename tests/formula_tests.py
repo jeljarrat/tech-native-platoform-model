@@ -39,7 +39,8 @@ def run(workbook: Path, manifest: dict, model_spec: dict) -> list[dict]:
                         missing_caches.append(f"{ws.title}!{cell.coordinate}")
                     color = cell.font.color
                     rgb = color.rgb if color and color.type == "rgb" else None
-                    if rgb != model_spec.get("formula_font_color"):
+                    expected_color = model_spec.get("formula_colors", {}).get("cross_sheet_formula" if "!" in value else "local_formula")
+                    if rgb != expected_color:
                         bad_colors.append(f"{ws.title}!{cell.coordinate}")
                     for ref in re.findall(r"(?:'([^']+)'|([A-Za-z0-9_ ]+))!\$?[A-Z]{1,3}\$?\d+", value):
                         dependencies[ws.title].add(ref[0] or ref[1])
@@ -63,4 +64,3 @@ def run(workbook: Path, manifest: dict, model_spec: dict) -> list[dict]:
         if not item["passed"]:
             item["findings"] = [finding(f"FRM-{index:03d}", item["test"], item["details"], "Correct formulas or formatting", item["test"])]
     return checks
-

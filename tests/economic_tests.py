@@ -4,6 +4,8 @@ from __future__ import annotations
 
 from pathlib import Path
 
+from openpyxl import load_workbook
+
 from scripts.qa_common import finding, result
 
 
@@ -13,10 +15,15 @@ def _compare(actual, operator: str, expected) -> bool:
 
 def run(workbook: Path, manifest: dict, model_spec: dict) -> list[dict]:
     snapshot = manifest.get("output_snapshot", {})
-    golden = manifest.get("golden_outputs", {})
+    golden = model_spec.get("golden_outputs", {})
+    cached = load_workbook(workbook, data_only=True, read_only=False)
     invariants = manifest.get("economic_invariants", [])
     scenarios = manifest.get("scenario_tests", [])
-    golden_ok = bool(golden) and all(snapshot.get(key) == value for key, value in golden.items())
+    golden_ok = bool(golden) and all(
+        abs(cached[item["sheet"]][item["cell"]].value - item["value"]) <= item["absolute_tolerance"]
+        and abs(snapshot.get(key) - item["value"]) <= item["absolute_tolerance"]
+        for key, item in golden.items()
+    )
     invariant_ok = bool(invariants) and all(_compare(snapshot.get(rule["key"]), rule["operator"], rule["value"]) for rule in invariants)
     scenario_ok = bool(scenarios) and all(item.get("passed") is True for item in scenarios)
     checks = [
@@ -28,4 +35,3 @@ def run(workbook: Path, manifest: dict, model_spec: dict) -> list[dict]:
         if not item["passed"]:
             item["findings"] = [finding(f"ECO-{index:03d}", item["test"], item["details"], "Resolve economic mismatch or obtain an approved decision", item["test"])]
     return checks
-

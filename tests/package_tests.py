@@ -14,12 +14,13 @@ def run(workbook: Path, manifest: dict, model_spec: dict) -> list[dict]:
     wb = load_workbook(workbook, data_only=False, read_only=False)
     expected_tabs = model_spec.get("tab_order", [])
     expected_hash = manifest.get("workbook_sha256")
+    approved_hash = model_spec.get("base_workbook", {}).get("sha256")
     results = [
         result("exact_tab_order", bool(expected_tabs) and wb.sheetnames == expected_tabs, f"actual={wb.sheetnames}; expected={expected_tabs}"),
         result("external_links_zero", len(wb._external_links) == 0, f"external_links={len(wb._external_links)}"),
         result("merged_cells_zero", sum(len(ws.merged_cells.ranges) for ws in wb.worksheets) == 0, "Merged ranges must be zero"),
         result("manifest_reconciliation", manifest.get("workbook") == workbook.name, "Manifest workbook name must match candidate"),
-        result("version_hash_checks", bool(expected_hash) and expected_hash == file_sha256(workbook), "Manifest SHA-256 must match candidate"),
+        result("version_hash_checks", bool(expected_hash) and expected_hash == approved_hash == file_sha256(workbook), "Workbook, manifest, and approved Base SHA-256 must match"),
     ]
     with zipfile.ZipFile(workbook) as package:
         names = set(package.namelist())
@@ -30,4 +31,3 @@ def run(workbook: Path, manifest: dict, model_spec: dict) -> list[dict]:
         if not item["passed"]:
             item["findings"] = [finding(f"PKG-{index:03d}", item["test"], item["details"], "Rebuild candidate package or manifest", item["test"])]
     return results
-

@@ -2,10 +2,63 @@ version: 1
 model_name: PMC underwriting model
 base_workbook:
   path: model/base-v2.4.4.xlsx
+  filename: base-v2.4.4.xlsx
   version: v2.4.4
-  sha256: TODO_AFTER_BASE_APPROVAL
-tab_order: []  # Populate when the repaired Base workbook is approved.
-formula_font_color: "FF0000FF"
+  sha256: afeca42fb998ed83d7b6ba292ce9386c35bbf5b67006785ada03a5a424fe5577
+  immutable: true
+tab_order:
+  - IC Summary
+  - Base Case Bridge
+  - Evidence & Market
+  - Assumptions
+  - Acquisition Schedule
+  - Anchor QoE
+  - Revenue & Durability
+  - Org & Capacity
+  - Operating Case
+  - Transaction & Liquidity
+  - Returns
+  - Controls
+  - Version Bridge
+formula_colors:
+  local_formula: "FF000000"
+  cross_sheet_formula: "FF008000"
+golden_outputs:
+  base_y7_ebitda:
+    value: 2910357.78008562
+    sheet: IC Summary
+    cell: F19
+    absolute_tolerance: 0.000001
+  total_platform_revenue:
+    value: 34074147.2101306
+    sheet: IC Summary
+    cell: F18
+    absolute_tolerance: 0.000001
+  platform_margin:
+    value: 0.0854124906527474
+    sheet: IC Summary
+    cell: F20
+    absolute_tolerance: 0.000000000001
+  leadership_redundancy:
+    value: 0
+    sheet: Operating Case
+    cell: K61
+    absolute_tolerance: 0
+  base_nearshore_saving:
+    value: 1532367.55169806
+    sheet: IC Summary
+    cell: C27
+    absolute_tolerance: 0.000001
+  seven_year_moic:
+    value: 0.498198750864880
+    sheet: Returns
+    cell: E56
+    absolute_tolerance: 0.000000000001
+  true_seven_year_irr:
+    value: -0.159205307136489
+    sheet: Returns
+    cell: E57
+    absolute_tolerance: 0.000000000001
 candidate_contract:
   required_files:
     - workbook
@@ -15,5 +68,5 @@ candidate_contract:
     - review_findings
 scenario_policy:
   must_derive_from_approved_base: true
+  required_base_sha256: afeca42fb998ed83d7b6ba292ce9386c35bbf5b67006785ada03a5a424fe5577
   base_architecture_changes_allowed: false
-

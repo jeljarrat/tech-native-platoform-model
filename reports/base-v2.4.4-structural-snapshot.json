@@ -1,0 +1,131 @@
+{
+  "calculation": {
+    "force_full_calc": null,
+    "full_calc_on_load": true,
+    "iterate": null,
+    "mode": null
+  },
+  "sha256": "afeca42fb998ed83d7b6ba292ce9386c35bbf5b67006785ada03a5a424fe5577",
+  "sheets": [
+    {
+      "chart_count": 2,
+      "max_column": 24,
+      "max_row": 147,
+      "merged_ranges": [],
+      "name": "IC Summary",
+      "table_names": []
+    },
+    {
+      "chart_count": 0,
+      "max_column": 14,
+      "max_row": 158,
+      "merged_ranges": [],
+      "name": "Base Case Bridge",
+      "table_names": []
+    },
+    {
+      "chart_count": 0,
+      "max_column": 8,
+      "max_row": 113,
+      "merged_ranges": [],
+      "name": "Evidence & Market",
+      "table_names": []
+    },
+    {
+      "chart_count": 0,
+      "max_column": 9,
+      "max_row": 118,
+      "merged_ranges": [],
+      "name": "Assumptions",
+      "table_names": []
+    },
+    {
+      "chart_count": 0,
+      "max_column": 23,
+      "max_row": 50,
+      "merged_ranges": [],
+      "name": "Acquisition Schedule",
+      "table_names": []
+    },
+    {
+      "chart_count": 0,
+      "max_column": 14,
+      "max_row": 26,
+      "merged_ranges": [],
+      "name": "Anchor QoE",
+      "table_names": []
+    },
+    {
+      "chart_count": 0,
+      "max_column": 14,
+      "max_row": 194,
+      "merged_ranges": [],
+      "name": "Revenue & Durability",
+      "table_names": []
+    },
+    {
+      "chart_count": 0,
+      "max_column": 26,
+      "max_row": 317,
+      "merged_ranges": [],
+      "name": "Org & Capacity",
+      "table_names": []
+    },
+    {
+      "chart_count": 0,
+      "max_column": 14,
+      "max_row": 154,
+      "merged_ranges": [],
+      "name": "Operating Case",
+      "table_names": []
+    },
+    {
+      "chart_count": 0,
+      "max_column": 15,
+      "max_row": 191,
+      "merged_ranges": [],
+      "name": "Transaction & Liquidity",
+      "table_names": []
+    },
+    {
+      "chart_count": 0,
+      "max_column": 14,
+      "max_row": 90,
+      "merged_ranges": [],
+      "name": "Returns",
+      "table_names": []
+    },
+    {
+      "chart_count": 0,
+      "max_column": 8,
+      "max_row": 77,
+      "merged_ranges": [],
+      "name": "Controls",
+      "table_names": []
+    },
+    {
+      "chart_count": 0,
+      "max_column": 3,
+      "max_row": 34,
+      "merged_ranges": [],
+      "name": "Version Bridge",
+      "table_names": []
+    }
+  ],
+  "tab_order": [
+    "IC Summary",
+    "Base Case Bridge",
+    "Evidence & Market",
+    "Assumptions",
+    "Acquisition Schedule",
+    "Anchor QoE",
+    "Revenue & Durability",
+    "Org & Capacity",
+    "Operating Case",
+    "Transaction & Liquidity",
+    "Returns",
+    "Controls",
+    "Version Bridge"
+  ],
+  "workbook": "base-v2.4.4.xlsx"
+}

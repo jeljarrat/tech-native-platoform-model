@@ -1,0 +1,23 @@
+workbook: base-v2.4.4.xlsx
+workbook_sha256: afeca42fb998ed83d7b6ba292ce9386c35bbf5b67006785ada03a5a424fe5577
+version: v2.4.4
+status: approved_frozen_base
+immutable: true
+base_sha256: afeca42fb998ed83d7b6ba292ce9386c35bbf5b67006785ada03a5a424fe5577
+output_snapshot_file: ../reports/base-v2.4.4-output-snapshot.json
+structural_snapshot_file: ../reports/base-v2.4.4-structural-snapshot.json
+formula_dependency_snapshot_file: ../reports/base-v2.4.4-formula-dependency-snapshot.json
+output_snapshot:
+  base_y7_ebitda: 2910357.78008562
+  total_platform_revenue: 34074147.2101306
+  platform_margin: 0.0854124906527474
+  leadership_redundancy: 0
+  base_nearshore_saving: 1532367.55169806
+  seven_year_moic: 0.498198750864880
+  true_seven_year_irr: -0.159205307136489
+economic_invariants:
+  - {key: leadership_redundancy, operator: eq, value: 0}
+scenario_tests:
+  - name: frozen_base_hash_anchor
+    passed: true
+
