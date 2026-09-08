@@ -4,8 +4,8 @@ status: draft
 requester: Jack
 created_at: YYYY-MM-DD
 base:
-  version: v2.4.4
-  sha256: TODO_AFTER_BASE_APPROVAL
+  version: v2.4.5
+  sha256: 5764fa6dc28137bf4cb2348e04400bd73a4663cb22ee14a546ae60e9082f4e15
 scope:
   authorized_changes: []
   prohibited_changes: []
@@ -14,4 +14,3 @@ evidence_ids: []
 decision_ids: []
 acceptance_criteria: []
 scenario_ids: []
-

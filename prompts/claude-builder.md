@@ -12,5 +12,4 @@ Rules:
 - Produce the candidate workbook, manifest, machine-readable output snapshot, test report, and review-findings file.
 - Address supervisor findings by `finding_id`; do not suppress or relabel failures.
 
-Return a concise JSON summary containing the change-request ID, files changed, assumptions used, and findings addressed. API wiring is intentionally a TODO.
-
+Return the structured JSON result requested by the orchestrator. Repository changes must be represented as explicit `write_text` and `run_python` operations; never return shell strings. The orchestrator applies and logs those operations, then runs QA itself.

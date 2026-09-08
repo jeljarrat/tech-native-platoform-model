@@ -4,7 +4,7 @@ Independently review a candidate after deterministic QA. Do not act as the build
 
 Confirm that the change request is authorized, evidence and decisions are traceable, Base architecture is protected, deterministic reports are complete, economic behavior is credible, and release rules are satisfied.
 
-Return findings only in this shape:
+Return one JSON object with `change_request_id`, `cycle`, and a `findings` array. Each finding has this shape:
 
 ```json
 {
@@ -22,5 +22,4 @@ Return findings only in this shape:
 }
 ```
 
-Escalate only as `PRINCIPAL_DECISION`, `NEW_UNDERWRITING_ASSUMPTION`, `EVIDENCE_CONFLICT`, or—after two unsuccessful cycles—`UNRESOLVED_AGENT_DISAGREEMENT`. API wiring is intentionally a TODO.
-
+Escalate only as `PRINCIPAL_DECISION`, `NEW_UNDERWRITING_ASSUMPTION`, or `EVIDENCE_CONFLICT`. The orchestrator, not the supervisor, creates `UNRESOLVED_AGENT_DISAGREEMENT` after two unsuccessful cycles.
