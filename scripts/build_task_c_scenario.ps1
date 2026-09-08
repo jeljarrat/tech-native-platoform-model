@@ -52,7 +52,7 @@ try {
   Style-Header $ws.Range("A3:H3")
   $inputs = @(
     @("TC27-01", "Acquired EBITDA per unit", 128, 128, 128, "USD/unit", "[F]", "Frozen Base; locked"),
-    @("TC27-02", "Required acquired revenue per unit", 853.333333333333, 853.333333333333, 853.333333333333, "USD/unit", "Jack decision", "128 / 15%; acquired only"),
+    @("TC27-02", "Required acquired revenue per unit", 853.333333333333, 853.333333333333, 853.333333333333, "USD/unit", "[A]/[OQ]", "Jack principal decision; target GL/QoE evidence required"),
     @("TC27-03", "Frozen acquired revenue per unit", 653.482944202758, 653.482944202758, 653.482944202758, "USD/unit", "[F]", "Assumptions E27:E30"),
     @("R004-01", "R004 rationalization realized after 12 months", 0.70, 0.85, 0.90, "x eligible payroll", "[A]/[OQ]", "Actual modeled R004 payroll; census refresh required"),
     @("SVC-01", "Project / construction adoption multiplier", 0.90, 1.00, 1.00, "x cap", "[C]/[OQ]", "Cap 60%; 3-year ramp; episodic"),
@@ -158,7 +158,7 @@ try {
   for ($year=1; $year -le 10; $year++) { $ws.Cells.Item(3,4+$year).Value2 = "Year $year" }
   Style-Header $ws.Range("A3:N3")
   $labels = @(
-    @("Managed units","units","[F]"), @("Contracted acquired units","units","[F]"), @("Frozen recurring revenue","USD","[F]"), @("TC-27 existing target other recurring / reimbursed revenue required to reconcile acquisition margin","USD","Jack decision"), @("Core recurring revenue after TC-27","USD","[C]"), @("Frozen consolidated EBITDA","USD","[F]"), @("Remove frozen buyer-created net contribution","USD","[C]"), @("Scenario foundation EBITDA","USD","[C]"), @("R004 leadership rationalization","USD","[A]/[OQ]"), @("Project / construction revenue","USD","[C]/[OQ]"), @("Project / construction GP","USD","[C]/[OQ]"), @("Maintenance / turns revenue","USD","[A]/[OQ]"), @("Maintenance / turns GP","USD","[A]/[OQ]"), @("Procurement / insurance revenue","USD","[C]/[OQ]"), @("Procurement / insurance GP","USD","[C]/[OQ]"), @("Resident / ancillary revenue","USD","[C]/[OQ]"), @("Resident / ancillary GP","USD","[C]/[OQ]"), @("Layer 1 revenue","USD","[A]"), @("Layer 1 GP","USD","[A]"), @("Layer 2 revenue","USD","[A]"), @("Layer 2 GP after required delivery payroll","USD","[A]"), @("Layer 3 revenue","USD","[A]"), @("Layer 3 GP","USD","[A]"), @("BD / commissions / travel / implementation","USD","[A]"), @("Recurring revenue","USD","[C]"), @("Episodic revenue","USD","[C]"), @("Total revenue","USD","[C]"), @("Consolidated EBITDA","USD","[C]"), @("Platform EBITDA margin","%","[C]"), @("Acquisition margin","%","[F]"), @("Senior debt / EBITDA","x","[C]"), @("Total debt / EBITDA","x","[C]"), @("Consolidated DSCR/FCCR","x","[C]")
+    @("Managed units","units","[F]"), @("Contracted acquired units","units","[F]"), @("Frozen recurring revenue","USD","[F]"), @("TC-27 existing target other recurring / reimbursed revenue required to reconcile acquisition margin","USD","[A]/[OQ]"), @("Core recurring revenue after TC-27","USD","[C]"), @("Frozen consolidated EBITDA","USD","[F]"), @("Remove frozen buyer-created net contribution","USD","[C]"), @("Scenario foundation EBITDA","USD","[C]"), @("R004 leadership rationalization","USD","[A]/[OQ]"), @("Project / construction revenue","USD","[C]/[OQ]"), @("Project / construction GP","USD","[C]/[OQ]"), @("Maintenance / turns revenue","USD","[A]/[OQ]"), @("Maintenance / turns GP","USD","[A]/[OQ]"), @("Procurement / insurance revenue","USD","[C]/[OQ]"), @("Procurement / insurance GP","USD","[C]/[OQ]"), @("Resident / ancillary revenue","USD","[C]/[OQ]"), @("Resident / ancillary GP","USD","[C]/[OQ]"), @("Layer 1 revenue","USD","[A]"), @("Layer 1 GP","USD","[A]"), @("Layer 2 revenue","USD","[A]"), @("Layer 2 GP after required delivery payroll","USD","[A]"), @("Layer 3 revenue","USD","[A]"), @("Layer 3 GP","USD","[A]"), @("BD / commissions / travel / implementation","USD","[A]"), @("Recurring revenue","USD","[C]"), @("Episodic revenue","USD","[C]"), @("Total revenue","USD","[C]"), @("Consolidated EBITDA","USD","[C]"), @("Platform EBITDA margin","%","[C]"), @("Acquisition margin","%","[F]"), @("Senior debt / EBITDA","x","[C]"), @("Total debt / EBITDA","x","[C]"), @("Consolidated DSCR/FCCR","x","[C]")
   )
   $startRows = @(4,39,74)
   for ($caseIndex=0; $caseIndex -lt 3; $caseIndex++) {
@@ -268,7 +268,21 @@ try {
     $ws.Cells.Item(63,$outCol).Formula="=IFERROR(K"+($s+15)+"/SUM(E"+($s+9)+":K"+($s+9)+"),0)"
     $ws.Cells.Item(64,$outCol).Formula="=IFERROR(IRR(E"+($s+16)+":K"+($s+16)+"),0)"
     $ws.Cells.Item(65,$outCol).Formula="=IFERROR(N"+($s+15)+"/SUM(E"+($s+9)+":N"+($s+9)+"),0)"
-    $ws.Cells.Item(66,$outCol).Formula="=IFERROR(IRR(E"+($s+16)+":N"+($s+16)+"),0)"
+    $tenYearCashFlowRow=69+$caseIndex
+    $ws.Cells.Item(66,$outCol).Formula="=IFERROR(IRR(E"+$tenYearCashFlowRow+":N"+$tenYearCashFlowRow+"),0)"
+  }
+  $ws.Range("A68:N68").Value2=@("10-year sponsor cash-flow series","Units","Tag","Case","Year 1","Year 2","Year 3","Year 4","Year 5","Year 6","Year 7","Year 8","Year 9","Year 10")
+  Style-Header $ws.Range("A68:N68")
+  for($caseIndex=0;$caseIndex -lt 3;$caseIndex++){
+    $s=$starts[$caseIndex];$rr=69+$caseIndex
+    $ws.Cells.Item($rr,1).Value2="Sponsor cash flow - 10-year"
+    $ws.Cells.Item($rr,2).Value2="USD"
+    $ws.Cells.Item($rr,3).Value2="[C]"
+    $ws.Cells.Item($rr,4).Value2=$caseNames[$caseIndex]
+    for($year=1;$year -le 10;$year++){
+      $c=4+$year
+      $ws.Cells.Item($rr,$c).Formula="=-"+$ws.Cells.Item($s+9,$c).Address($false,$false)+"+IF("+$ws.Cells.Item(3,$c).Address($false,$false)+"=`"Year 10`","+$ws.Cells.Item($s+15,$c).Address($false,$false)+",0)"
+    }
   }
   $ws.Range("A:N").Columns.AutoFit()|Out-Null;$ws.Columns.Item(1).ColumnWidth=46
 

@@ -5,14 +5,14 @@ change_request_id: CR-2026-001
 status: reviewed_release_candidate
 workbook:
   path: scenarios/TASK-C-PATH-10M/task-c-path-to-10m-v1.xlsx
-  sha256: ce321277f84caf682622a3a47f5962813a872509b252297fcd7196c09106ba73
+  sha256: 46a4d35dbc8e81ea9baec034230003e583596c56de8277c67b9d6c48bd1f2e75
 derived_from:
   path: model/base-v2.4.5.xlsx
   sha256: 5764fa6dc28137bf4cb2348e04400bd73a4663cb22ee14a546ae60e9082f4e15
   verified_at_build: true
 scenario_config:
   path: scenarios/TASK-C-PATH-10M/scenario.yaml
-  sha256: de4d39d0f7bea19c0671d22ffaf6b8cf7fd2634bf71330661ac7f640bd2ef3ad
+  sha256: 17902005f4e064ee1e09af159316cf79f697205eee0db58d138ba9659c4f92a8
 base_tab_order:
   - IC Summary
   - Base Case Bridge
@@ -56,6 +56,13 @@ calculation_evidence:
   full_recalc: true
   working_copy_evidence_only: true
   canonical_shared_formula_records: 0
+  seven_year_terminal_proceeds_year: 7
+  ten_year_terminal_proceeds_year: 10
+  horizon_specific_sponsor_cash_flows: true
+evidence_classification:
+  tc27: "[A]/[OQ]"
+  principal_decision: Jack
+  fact_conversion_requires_target_evidence: true
 artifacts:
   output_snapshot: reports/task-c-output-snapshot.json
   qa_report: reports/task-c-qa-report.json

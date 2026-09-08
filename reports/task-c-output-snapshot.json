@@ -2,10 +2,10 @@
   "schema_version": "1.0",
   "scenario_id": "TASK-C-PATH-10M",
   "change_request_id": "CR-2026-001",
-  "workbook_sha256": "ce321277f84caf682622a3a47f5962813a872509b252297fcd7196c09106ba73",
+  "workbook_sha256": "46a4d35dbc8e81ea9baec034230003e583596c56de8277c67b9d6c48bd1f2e75",
   "base_sha256": "5764fa6dc28137bf4cb2348e04400bd73a4663cb22ee14a546ae60e9082f4e15",
   "calculation_engine": "Microsoft Excel full calculation rebuild",
-  "generated_at": "2026-09-08T18:33:05.896878+00:00",
+  "generated_at": "2026-09-08T19:22:10.374985+00:00",
   "cases": {
     "Downside": {
       "y7_units": 50000,
@@ -21,7 +21,7 @@
       "moic_7y": 5.359734026960142,
       "irr_7y": 0.3916506943508129,
       "tvpi_10y": 5.354231950009218,
-      "irr_10y": 0.3916506943508129,
+      "irr_10y": 0.23223445130578635,
       "exit_value_with_episodic": 85800719.57165037,
       "exit_value_without_episodic": 79020913.09450373
     },
@@ -39,7 +39,7 @@
       "moic_7y": 6.297129621712368,
       "irr_7y": 0.4336362569277761,
       "tvpi_10y": 6.3539844904501415,
-      "irr_10y": 0.4336362569277761,
+      "irr_10y": 0.2578735939159673,
       "exit_value_with_episodic": 95000000,
       "exit_value_without_episodic": 87466881.6920593
     },
@@ -57,7 +57,7 @@
       "moic_7y": 6.309587150897678,
       "irr_7y": 0.43419068264137795,
       "tvpi_10y": 6.356117056673923,
-      "irr_10y": 0.43419068264137795,
+      "irr_10y": 0.25793085693456996,
       "exit_value_with_episodic": 95064478.73780784,
       "exit_value_without_episodic": 87531360.42986713
     }

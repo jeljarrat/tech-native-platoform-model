@@ -21,8 +21,9 @@ scope:
     - Replace the canonical zero-shared workbook with a desktop Excel verification copy.
 assumptions:
   - id: TC27-REVENUE-RECONCILIATION
-    tag: F
-    value: Existing acquired-target revenue is solved so $128 EBITDA/unit equals a 15.0% acquisition margin.
+    tag: A/OQ
+    principal_decision: Jack
+    value: Assumed existing acquired-target other recurring/reimbursed revenue is solved so $128 EBITDA/unit equals a 15.0% acquisition margin; target GL and QoE evidence are required before factual classification.
   - id: R004-TRANSITION
     tag: A
     value: Scenario-only founder/head-of-operations rationalization begins after a 12-month transition by acquisition vintage.
@@ -34,7 +35,7 @@ assumptions:
     value: Project/construction, maintenance/turns, procurement/insurance, and resident/ancillary use the approved per-unit economics, caps, and ramps.
   - id: ORGANIC-UPLIFT
     tag: A
-    value: Organic uplift may range from the frozen 4% Base level to 16%, with incremental platform BD and implementation costs.
+    value: Organic uplift may range from the frozen 4% Base level to 16%, with incremental platform BD and implementation costs; the selected Task C case remains at Base, so incremental uplift is 0 percentage points and 0% of the incremental authorized range.
   - id: LAYERS
     tag: A
     value: Layers 1-3 are upper bounds and must ramp independently for acquired and organic cohorts.
@@ -43,6 +44,7 @@ evidence_ids:
   - EVD-2026-TC-SERVICE-BOUNDS
 decision_ids:
   - DEC-2026-TC-LAUNCH
+  - DEC-2026-TC27-CLASSIFICATION
 acceptance_criteria:
   - Y7 EBITDA is at least $10.0m.
   - Managed units do not exceed 50,000 through Y10.

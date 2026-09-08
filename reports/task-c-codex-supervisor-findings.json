@@ -1,6 +1,6 @@
 {
   "scenario_id": "TASK-C-PATH-10M",
-  "candidate_sha256": "ce321277f84caf682622a3a47f5962813a872509b252297fcd7196c09106ba73",
+  "candidate_sha256": "46a4d35dbc8e81ea9baec034230003e583596c56de8277c67b9d6c48bd1f2e75",
   "base_sha256": "5764fa6dc28137bf4cb2348e04400bd73a4663cb22ee14a546ae60e9082f4e15",
   "cycle": 2,
   "reviewer": "Codex independent supervisor",
@@ -22,13 +22,14 @@
     "moic_7y": 6.297129621712368,
     "irr_7y": 0.4336362569277761,
     "tvpi_10y": 6.3539844904501415,
-    "irr_10y": 0.4336362569277761,
+    "irr_10y": 0.2578735939159673,
     "exit_value_with_episodic": 95000000,
     "exit_value_without_episodic": 87466881.6920593
   },
   "authorization_review": {
     "append_only": true,
-    "base_hash_verified": true
+    "base_hash_verified": true,
+    "tc27_evidence_tag": "[A]/[OQ]"
   },
   "findings": []
 }

@@ -6,6 +6,12 @@ decisions:
     question: Build and independently review a least-aggressive compliant Path-to-$10m EBITDA scenario from frozen Base v2.4.5?
     decision: Approved with the bounds, priority order, TC-27 correction, cohort-maturity method, and escalation policy in CR-2026-001.
     decided_at: 2026-09-08
+  - decision_id: DEC-2026-TC27-CLASSIFICATION
+    status: approved
+    owner: Jack
+    question: May TC-27 remain in the selected Task C case without documentary target evidence?
+    decision: Approved only as an [A]/[OQ] underwriting assumption for contracted acquired units, with zero EBITDA contribution; it may not be classified [F] until target GL and supporting diligence evidence prove the revenue exists and is retained.
+    decided_at: 2026-09-08
 # Add principal decisions as immutable records:
 # - decision_id: DEC-YYYY-NNN
 #   status: approved

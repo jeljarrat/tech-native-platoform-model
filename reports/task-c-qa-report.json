@@ -4,17 +4,17 @@
   "change_request_id": "CR-2026-001",
   "identity": {
     "candidate": "scenarios/TASK-C-PATH-10M/task-c-path-to-10m-v1.xlsx",
-    "candidate_sha256": "ce321277f84caf682622a3a47f5962813a872509b252297fcd7196c09106ba73",
+    "candidate_sha256": "46a4d35dbc8e81ea9baec034230003e583596c56de8277c67b9d6c48bd1f2e75",
     "base_sha256": "5764fa6dc28137bf4cb2348e04400bd73a4663cb22ee14a546ae60e9082f4e15"
   },
   "summary": {
-    "total": 39,
-    "passed": 39,
+    "total": 51,
+    "passed": 51,
     "failed": 0,
     "release_blockers": 0
   },
   "package": {
-    "formula_count": 18551,
+    "formula_count": 18581,
     "shared_records": 0,
     "shared_groups": 0,
     "missing_caches": 0,
@@ -39,6 +39,26 @@
       "blocks_release": true,
       "actual": "5764fa6dc28137bf4cb2348e04400bd73a4663cb22ee14a546ae60e9082f4e15",
       "expected": "5764fa6dc28137bf4cb2348e04400bd73a4663cb22ee14a546ae60e9082f4e15",
+      "details": ""
+    },
+    {
+      "test_id": "TC-MANIFEST-WORKBOOK-HASH",
+      "suite": "provenance",
+      "passed": true,
+      "severity": "RELEASE_BLOCKER",
+      "blocks_release": true,
+      "actual": "46a4d35dbc8e81ea9baec034230003e583596c56de8277c67b9d6c48bd1f2e75",
+      "expected": "46a4d35dbc8e81ea9baec034230003e583596c56de8277c67b9d6c48bd1f2e75",
+      "details": ""
+    },
+    {
+      "test_id": "TC-MANIFEST-CONFIG-HASH",
+      "suite": "provenance",
+      "passed": true,
+      "severity": "RELEASE_BLOCKER",
+      "blocks_release": true,
+      "actual": "17902005f4e064ee1e09af159316cf79f697205eee0db58d138ba9659c4f92a8",
+      "expected": "17902005f4e064ee1e09af159316cf79f697205eee0db58d138ba9659c4f92a8",
       "details": ""
     },
     {
@@ -384,6 +404,40 @@
       "details": ""
     },
     {
+      "test_id": "TC-TC27-EVIDENCE-TAG",
+      "suite": "governance",
+      "passed": true,
+      "severity": "RELEASE_BLOCKER",
+      "blocks_release": true,
+      "actual": [
+        "[A]/[OQ]",
+        "[A]/[OQ]",
+        "[A]/[OQ]"
+      ],
+      "expected": [
+        "[A]/[OQ]",
+        "[A]/[OQ]",
+        "[A]/[OQ]"
+      ],
+      "details": ""
+    },
+    {
+      "test_id": "TC-ORGANIC-INCREMENTAL-DISCLOSURE",
+      "suite": "governance",
+      "passed": true,
+      "severity": "RELEASE_BLOCKER",
+      "blocks_release": true,
+      "actual": [
+        0.0,
+        0.0
+      ],
+      "expected": [
+        0.0,
+        0.0
+      ],
+      "details": ""
+    },
+    {
       "test_id": "TC-COHORT-MATURITY",
       "suite": "cohorts",
       "passed": true,
@@ -474,6 +528,86 @@
       "blocks_release": true,
       "actual": 87466881.6920593,
       "expected": 95000000,
+      "details": ""
+    },
+    {
+      "test_id": "TC-RETURNS-7Y-TERMINAL",
+      "suite": "returns",
+      "passed": true,
+      "severity": "RELEASE_BLOCKER",
+      "blocks_release": true,
+      "actual": [],
+      "expected": [],
+      "details": ""
+    },
+    {
+      "test_id": "TC-RETURNS-10Y-TERMINAL",
+      "suite": "returns",
+      "passed": true,
+      "severity": "RELEASE_BLOCKER",
+      "blocks_release": true,
+      "actual": [],
+      "expected": [],
+      "details": ""
+    },
+    {
+      "test_id": "TC-RETURNS-HORIZON-SERIES",
+      "suite": "returns",
+      "passed": true,
+      "severity": "RELEASE_BLOCKER",
+      "blocks_release": true,
+      "actual": [],
+      "expected": [],
+      "details": ""
+    },
+    {
+      "test_id": "TC-RETURNS-WRONG-YEAR",
+      "suite": "returns",
+      "passed": true,
+      "severity": "RELEASE_BLOCKER",
+      "blocks_release": true,
+      "actual": [],
+      "expected": [],
+      "details": ""
+    },
+    {
+      "test_id": "TC-RETURNS-EXIT-ONCE",
+      "suite": "returns",
+      "passed": true,
+      "severity": "RELEASE_BLOCKER",
+      "blocks_release": true,
+      "actual": [],
+      "expected": [],
+      "details": ""
+    },
+    {
+      "test_id": "TC-RETURNS-NO-POST-EXIT-CURES",
+      "suite": "returns",
+      "passed": true,
+      "severity": "RELEASE_BLOCKER",
+      "blocks_release": true,
+      "actual": [],
+      "expected": [],
+      "details": ""
+    },
+    {
+      "test_id": "TC-RETURNS-IRR-RECONSTRUCTION",
+      "suite": "returns",
+      "passed": true,
+      "severity": "RELEASE_BLOCKER",
+      "blocks_release": true,
+      "actual": [],
+      "expected": [],
+      "details": ""
+    },
+    {
+      "test_id": "TC-RETURNS-MULTIPLE-RECONSTRUCTION",
+      "suite": "returns",
+      "passed": true,
+      "severity": "RELEASE_BLOCKER",
+      "blocks_release": true,
+      "actual": [],
+      "expected": [],
       "details": ""
     },
     {

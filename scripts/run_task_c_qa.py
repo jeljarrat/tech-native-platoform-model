@@ -31,11 +31,34 @@ def close(a: float, b: float, tol: float = 1e-7) -> bool:
     return math.isclose(float(a), float(b), rel_tol=tol, abs_tol=tol)
 
 
+def independent_irr(cash_flows: list[float]) -> float:
+    """Reconstruct periodic IRR without using Excel or an Excel-formula helper."""
+    def npv(rate: float) -> float:
+        return sum(float(value) / ((1.0 + rate) ** period) for period, value in enumerate(cash_flows))
+
+    low, high = -0.999999, 10.0
+    low_value, high_value = npv(low), npv(high)
+    while low_value * high_value > 0 and high < 1_000_000:
+        high *= 2
+        high_value = npv(high)
+    if low_value * high_value > 0:
+        raise ValueError("Cash-flow series has no bracketed periodic IRR")
+    for _ in range(300):
+        midpoint = (low + high) / 2
+        midpoint_value = npv(midpoint)
+        if low_value * midpoint_value <= 0:
+            high = midpoint
+        else:
+            low, low_value = midpoint, midpoint_value
+    return (low + high) / 2
+
+
 def run_checks(repo: Path, write_reports: bool = True) -> dict:
     base = repo / "model/base-v2.4.5.xlsx"
     candidate = repo / "scenarios/TASK-C-PATH-10M/task-c-path-to-10m-v1.xlsx"
     config_path = repo / "scenarios/TASK-C-PATH-10M/scenario.yaml"
     config = yaml.safe_load(config_path.read_text(encoding="utf-8"))
+    manifest = yaml.safe_load((repo / "scenarios/TASK-C-PATH-10M/manifest.yaml").read_text(encoding="utf-8"))
     wb_f = load_workbook(candidate, data_only=False, read_only=False)
     wb_v = load_workbook(candidate, data_only=True, read_only=False)
     base_f = load_workbook(base, data_only=False, read_only=False)
@@ -47,6 +70,8 @@ def run_checks(repo: Path, write_reports: bool = True) -> dict:
 
     check("TC-BASE-HASH", sha256(base), BASE_HASH, sha256(base) == BASE_HASH, "provenance")
     check("TC-CONFIG-HASH", config["base"]["sha256"], BASE_HASH, config["base"]["sha256"] == BASE_HASH, "provenance")
+    check("TC-MANIFEST-WORKBOOK-HASH", manifest["workbook"]["sha256"], sha256(candidate), manifest["workbook"]["sha256"] == sha256(candidate), "provenance")
+    check("TC-MANIFEST-CONFIG-HASH", manifest["scenario_config"]["sha256"], sha256(config_path), manifest["scenario_config"]["sha256"] == sha256(config_path), "provenance")
     check("TC-TAB-ORDER", wb_f.sheetnames, BASE_TABS + SCENARIO_TABS, wb_f.sheetnames == BASE_TABS + SCENARIO_TABS, "package")
 
     formula_diffs = []
@@ -156,6 +181,8 @@ def run_checks(repo: Path, write_reports: bool = True) -> dict:
     check("TC-TC27-PER-UNIT", tc27_per_unit, 199.850389130575, close(tc27_per_unit, 199.850389130575), "economics")
     check("TC-TC27-Y7", econ["K42"].value, tc27_expected, close(econ["K42"].value, tc27_expected), "economics")
     check("TC-TC27-EBITDA", 0, 0, True, "economics")
+    check("TC-TC27-EVIDENCE-TAG", [config["tc27"].get("evidence_tag"), wb_v["TC Inputs"]["G5"].value, econ["C42"].value], ["[A]/[OQ]"] * 3, config["tc27"].get("evidence_tag") == "[A]/[OQ]" and wb_v["TC Inputs"]["G5"].value == "[A]/[OQ]" and econ["C42"].value == "[A]/[OQ]", "governance")
+    check("TC-ORGANIC-INCREMENTAL-DISCLOSURE", [config["organic_growth"].get("incremental_uplift_above_base"), config["organic_growth"].get("incremental_authorized_range_used")], [0.0, 0.0], config["organic_growth"].get("incremental_uplift_above_base") == 0.0 and config["organic_growth"].get("incremental_authorized_range_used") == 0.0, "governance")
 
     cohort = wb_v["TC Cohorts"]
     cohort_formula = wb_f["TC Cohorts"]
@@ -193,6 +220,53 @@ def run_checks(repo: Path, write_reports: bool = True) -> dict:
     check("TC-HOLDCO-PRESERVED", [base_v["Operating Case"]["K77"].value, base_v["Operating Case"]["K78"].value], [wb_v["Operating Case"]["K77"].value, wb_v["Operating Case"]["K78"].value], close(base_v["Operating Case"]["K77"].value, wb_v["Operating Case"]["K77"].value) and close(base_v["Operating Case"]["K78"].value, wb_v["Operating Case"]["K78"].value), "governance")
     check("TC-EPISODIC-EXIT", base_metrics["exit_value_without_episodic"], base_metrics["exit_value_with_episodic"], base_metrics["exit_value_without_episodic"] < base_metrics["exit_value_with_episodic"], "returns")
 
+    debt_f = wb_f["TC Debt & Returns"]
+    debt_v = wb_v["TC Debt & Returns"]
+    return_errors: dict[str, list[str]] = {
+        "seven_terminal": [], "ten_terminal": [], "same_series": [], "wrong_year": [],
+        "exit_once": [], "post_exit_cures": [], "irr": [], "multiple": [],
+    }
+    for case_index, (case, output_col) in enumerate(cases.items()):
+        start = (4, 23, 42)[case_index]
+        seven_row = start + 16
+        ten_row = 69 + case_index
+        contributions = [float(debt_v.cell(start + 9, col).value or 0) for col in range(5, 15)]
+        proceeds = [float(debt_v.cell(start + 15, col).value or 0) for col in range(5, 15)]
+        seven_actual = [float(debt_v.cell(seven_row, col).value or 0) for col in range(5, 15)]
+        ten_actual = [float(debt_v.cell(ten_row, col).value or 0) for col in range(5, 15)]
+        seven_expected = [-value + (proceeds[i] if i == 6 else 0) for i, value in enumerate(contributions)]
+        ten_expected = [-value + (proceeds[i] if i == 9 else 0) for i, value in enumerate(contributions)]
+        if any(not close(a, b) for a, b in zip(seven_actual, seven_expected)):
+            return_errors["seven_terminal"].append(case)
+        if any(not close(a, b) for a, b in zip(ten_actual, ten_expected)):
+            return_errors["ten_terminal"].append(case)
+        if not str(debt_f.cell(66, output_col).value).replace("$", "").endswith(f"E{ten_row}:N{ten_row}),0)"):
+            return_errors["same_series"].append(case)
+        if abs(seven_actual[9]) > 0.01 or abs(ten_actual[6]) > 0.01:
+            return_errors["wrong_year"].append(case)
+        if sum(value > 0 for value in seven_actual) != 1 or sum(value > 0 for value in ten_actual) != 1:
+            return_errors["exit_once"].append(case)
+        if any(abs(value) > 0.01 for value in contributions[7:]):
+            return_errors["post_exit_cures"].append(case)
+        reconstructed_7y_irr = independent_irr(seven_actual[:7])
+        reconstructed_10y_irr = independent_irr(ten_actual)
+        if not close(output.cell(15, output_col).value, reconstructed_7y_irr) or not close(output.cell(17, output_col).value, reconstructed_10y_irr):
+            return_errors["irr"].append(case)
+        contribution_total_7y = sum(contributions[:7])
+        contribution_total_10y = sum(contributions)
+        reconstructed_7y_moic = proceeds[6] / contribution_total_7y
+        reconstructed_10y_tvpi = proceeds[9] / contribution_total_10y
+        if not close(output.cell(14, output_col).value, reconstructed_7y_moic) or not close(output.cell(16, output_col).value, reconstructed_10y_tvpi):
+            return_errors["multiple"].append(case)
+    check("TC-RETURNS-7Y-TERMINAL", return_errors["seven_terminal"], [], not return_errors["seven_terminal"], "returns")
+    check("TC-RETURNS-10Y-TERMINAL", return_errors["ten_terminal"], [], not return_errors["ten_terminal"], "returns")
+    check("TC-RETURNS-HORIZON-SERIES", return_errors["same_series"], [], not return_errors["same_series"], "returns")
+    check("TC-RETURNS-WRONG-YEAR", return_errors["wrong_year"], [], not return_errors["wrong_year"], "returns")
+    check("TC-RETURNS-EXIT-ONCE", return_errors["exit_once"], [], not return_errors["exit_once"], "returns")
+    check("TC-RETURNS-NO-POST-EXIT-CURES", return_errors["post_exit_cures"], [], not return_errors["post_exit_cures"], "returns")
+    check("TC-RETURNS-IRR-RECONSTRUCTION", return_errors["irr"], [], not return_errors["irr"], "returns")
+    check("TC-RETURNS-MULTIPLE-RECONSTRUCTION", return_errors["multiple"], [], not return_errors["multiple"], "returns")
+
     bridge_rows = range(23, 42)
     bridge_sum = sum((output.cell(r, 3).value or 0) for r in range(23, 41))
     check("TC-BRIDGE-RECONCILIATION", bridge_sum, output["C41"].value, close(bridge_sum, output["C41"].value), "double_count")
@@ -229,11 +303,15 @@ def run_checks(repo: Path, write_reports: bool = True) -> dict:
             "reviewer": "Codex independent supervisor", "qa_report": "reports/task-c-qa-report.json",
             "decision": "APPROVE" if result["summary"]["failed"] == 0 else "RETURN_TO_BUILDER",
             "release_blockers": [t["test_id"] for t in tests if not t["passed"]], "escalation": None,
-            "economic_reconstruction": base_metrics, "authorization_review": {"append_only": not formula_diffs and not value_diffs, "base_hash_verified": sha256(base) == BASE_HASH},
+            "economic_reconstruction": base_metrics, "authorization_review": {"append_only": not formula_diffs and not value_diffs, "base_hash_verified": sha256(base) == BASE_HASH, "tc27_evidence_tag": config["tc27"].get("evidence_tag")},
             "findings": [] if result["summary"]["failed"] == 0 else [{"finding_id": f"TC-{i+1:03d}", "severity": "RELEASE_BLOCKER", "category": t["suite"], "sheet": None, "cell_or_range": None, "issue": t["test_id"], "economic_effect": t["details"], "blocks_release": True, "requires_jack_decision": False, "required_fix": "Return to builder", "required_test": t["test_id"]} for i,t in enumerate(t for t in tests if not t["passed"])]
         }
         (reports / "task-c-codex-supervisor-findings.json").write_text(json.dumps(findings, indent=2) + "\n", encoding="utf-8")
-        memo = f"""# Task C reviewed release candidate\n\nThe Base case reaches **${base_metrics['ebitda']:,.0f} of Year-7 EBITDA** on **{base_metrics['y7_units']:,.0f} units** at a **{base_metrics['platform_margin']:.2%} platform margin**. Acquisition margin is {base_metrics['acquisition_margin']:.4%}; total leverage is {base_metrics['total_leverage']:.2f}x and reconstructed consolidated DSCR/FCCR is {base_metrics['dscr_fccr']:.2f}x.\n\nThe least-aggressive selected path uses the frozen acquisition program plus TC-27, Base nearshore assumptions, partial vintage-based R004 rationalization, Layer 1 at its approved cap, full ramped project/construction and maintenance adoption, and a small residual resident/ancillary adoption. Organic uplift remains 4%; R009/R013 nearshore, procurement, Layers 2/3, and HR/IT sensitivities are unused.\n\nProject/construction revenue is episodic and is included in the margin denominator. The terminal-value sensitivity excluding episodic EBITDA is ${base_metrics['exit_value_without_episodic']:,.0f}, versus ${base_metrics['exit_value_with_episodic']:,.0f} including it.\n\nFrozen Base hash: `{BASE_HASH}`. Candidate hash: `{sha256(candidate)}`. Automated QA: {result['summary']['passed']}/{result['summary']['total']} passed.\n"""
+        tc27_y7 = float(econ["K42"].value)
+        tc27_share = tc27_y7 / float(base_metrics["total_revenue"])
+        margin_without_tc27 = float(base_metrics["ebitda"]) / (float(base_metrics["total_revenue"]) - tc27_y7)
+        assessment = "The $10m case is aggressive and boundary-dependent because it reaches the threshold exactly while requiring three levers at authorized caps, 85% R004 realization without target census support, a residual resident/ancillary solve, and substantially all assumed TC-27 revenue to remain inside the platform-margin constraint."
+        memo = f"""# Task C reviewed release candidate\n\nThe Base case reaches **${base_metrics['ebitda']:,.0f} of Year-7 EBITDA** on **{base_metrics['y7_units']:,.0f} units** at a **{base_metrics['platform_margin']:.2%} platform margin**. Acquisition margin is {base_metrics['acquisition_margin']:.4%}; total leverage is {base_metrics['total_leverage']:.2f}x and reconstructed consolidated DSCR/FCCR is {base_metrics['dscr_fccr']:.2f}x.\n\n{assessment}\n\nTC-27 is classified **[A]/[OQ]**, with an explicit Jack principal decision. It assumes ${tc27_y7:,.2f} of Year-7 existing target other recurring/reimbursed revenue, or {tc27_share:.4%} of total Year-7 revenue, applies only to contracted acquired units, and contributes zero EBITDA. Without TC-27, platform margin rises to approximately {margin_without_tc27:.2%}. Target GL, contract, invoice/collection, QoE, unit-count, recurrence, retention, and non-duplication evidence are required before TC-27 can be converted to [F].\n\nOrganic uplift remains at the frozen Base level of 4%. Incremental Task-C uplift above Base is 0 percentage points, representing 0% of the incremental authorized range. R009/R013 nearshore, procurement, Layers 2/3, and HR/IT sensitivities are unused.\n\nProject/construction revenue is episodic and is included in the margin denominator. The terminal-value sensitivity excluding episodic EBITDA is ${base_metrics['exit_value_without_episodic']:,.0f}, versus ${base_metrics['exit_value_with_episodic']:,.0f} including it. Seven-year returns use Year-7 proceeds; ten-year returns use the separate Year-10 sponsor cash-flow series and Year-10 proceeds.\n\nFrozen Base hash: `{BASE_HASH}`. Candidate hash: `{sha256(candidate)}`. Automated QA: {result['summary']['passed']}/{result['summary']['total']} passed.\n"""
         (reports / "task-c-release-memo.md").write_text(memo, encoding="utf-8")
     return result
 

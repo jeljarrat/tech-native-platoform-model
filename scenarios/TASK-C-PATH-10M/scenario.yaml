@@ -34,6 +34,9 @@ tc27:
   frozen_acquired_revenue_per_unit: 653.482944202758
   applies_to: contracted_acquired_units_only
   incremental_ebitda: 0
+  evidence_tag: "[A]/[OQ]"
+  principal_decision: Jack
+  fact_conversion_requirement: Target GL, contracts, invoices/collections, QoE, unit counts, recurring-retention support, and proof of no duplication with frozen fee revenue.
 leadership:
   role_id: R004
   timing: after_12_months
@@ -49,6 +52,8 @@ nearshore:
 organic_growth:
   frozen_uplift: 0.04
   selected: {Downside: 0.04, Base: 0.04, Upside: 0.04}
+  incremental_uplift_above_base: 0.0
+  incremental_authorized_range_used: 0.0
 service_streams:
   project_construction: {revenue_per_unit: 100, cost_per_unit: 70, adoption_cap: 0.60, ramp_years: 3, episodic: true, tag: "[C]/[OQ]", selected: {Downside: 0.90, Base: 1.0, Upside: 1.0}}
   maintenance_turns: {revenue_per_unit: 450, cost_per_unit: 383, adoption_cap: 0.55, ramp_years: 4, episodic: false, tag: "[A]/[OQ]", selected: {Downside: 0.90, Base: 1.0, Upside: 1.0}}
