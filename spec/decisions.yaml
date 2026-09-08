@@ -1,0 +1,10 @@
+version: 1
+decisions: []
+# Add principal decisions as immutable records:
+# - decision_id: DEC-YYYY-NNN
+#   status: approved
+#   owner: Jack
+#   question: "..."
+#   decision: "..."
+#   decided_at: YYYY-MM-DD
+

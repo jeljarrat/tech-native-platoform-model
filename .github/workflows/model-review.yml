@@ -1,0 +1,44 @@
+name: Model review
+
+on:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      manifest:
+        description: Candidate manifest path (optional until Base is approved)
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  deterministic-qa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Validate infrastructure
+        run: |
+          python -m compileall scripts tests
+          python scripts/orchestrate_review.py change-requests/template.yaml --manifest change-requests/template.yaml --dry-run --allow-template
+      - name: Run candidate QA when requested
+        if: ${{ inputs.manifest != '' }}
+        run: python scripts/run_regression.py --manifest "${{ inputs.manifest }}" --output reports/test-report.json
+      - name: Agent integration placeholder
+        run: |
+          echo "TODO: connect Claude with ANTHROPIC_API_KEY"
+          echo "TODO: connect Codex with OPENAI_API_KEY"
+      - name: Upload reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: model-review-reports
+          path: reports/
+          if-no-files-found: warn
+

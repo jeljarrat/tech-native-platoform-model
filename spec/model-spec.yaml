@@ -1,0 +1,19 @@
+version: 1
+model_name: PMC underwriting model
+base_workbook:
+  path: model/base-v2.4.4.xlsx
+  version: v2.4.4
+  sha256: TODO_AFTER_BASE_APPROVAL
+tab_order: []  # Populate when the repaired Base workbook is approved.
+formula_font_color: "FF0000FF"
+candidate_contract:
+  required_files:
+    - workbook
+    - manifest
+    - output_snapshot
+    - test_report
+    - review_findings
+scenario_policy:
+  must_derive_from_approved_base: true
+  base_architecture_changes_allowed: false
+

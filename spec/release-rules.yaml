@@ -1,0 +1,34 @@
+version: 1
+source_of_truth_branch: main
+workbook_edits_require_branch: true
+unique_change_request_id_required: true
+max_agent_cycles_before_escalation: 2
+mandatory_tests:
+  - exact_tab_order
+  - shared_formulas_zero
+  - formula_errors_zero
+  - missing_caches_zero
+  - long_formulas_zero
+  - external_links_zero
+  - merged_cells_zero
+  - wrapped_populated_cells_zero
+  - formula_color_convention
+  - dependency_graph
+  - manifest_reconciliation
+  - formula_pattern_regression
+  - golden_output_checks
+  - economic_invariants
+  - scenario_tests
+  - chart_package_checks
+  - version_hash_checks
+release_blocker_severities: [critical, high]
+allowed_escalations:
+  - PRINCIPAL_DECISION
+  - NEW_UNDERWRITING_ASSUMPTION
+  - EVIDENCE_CONFLICT
+  - UNRESOLVED_AGENT_DISAGREEMENT
+approval:
+  require_all_mandatory_tests: true
+  require_zero_release_blockers: true
+  require_zero_unauthorized_changes: true
+

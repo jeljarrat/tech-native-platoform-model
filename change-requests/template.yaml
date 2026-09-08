@@ -1,0 +1,17 @@
+change_request_id: CR-YYYY-NNN
+title: Short description
+status: draft
+requester: Jack
+created_at: YYYY-MM-DD
+base:
+  version: v2.4.4
+  sha256: TODO_AFTER_BASE_APPROVAL
+scope:
+  authorized_changes: []
+  prohibited_changes: []
+assumptions: []
+evidence_ids: []
+decision_ids: []
+acceptance_criteria: []
+scenario_ids: []
+

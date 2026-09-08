@@ -1,0 +1,9 @@
+version: 1
+evidence: []
+# Each underwriting input should trace to evidence:
+# - evidence_id: EVD-YYYY-NNN
+#   source: "..."
+#   retrieved_at: YYYY-MM-DD
+#   sha256: "..."
+#   supports: ["assumption-id"]
+
