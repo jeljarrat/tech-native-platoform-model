@@ -208,7 +208,7 @@ class SubscriptionCLIAdapter:
         except subprocess.TimeoutExpired as error:
             raise RuntimeError(f"{self.service} CLI timed out after {self.timeout} seconds") from error
         combined = f"{completed.stdout}\n{completed.stderr}"
-        if is_usage_limit(combined):
+        if completed.returncode and is_usage_limit(combined):
             raise SubscriptionLimitError(self.service, combined)
         if completed.returncode:
             raise RuntimeError(f"{self.service} CLI exited {completed.returncode}: {redact(combined)[-2000:]}")
