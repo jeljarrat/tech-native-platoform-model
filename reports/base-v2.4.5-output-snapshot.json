@@ -1,0 +1,14 @@
+{
+  "base_sha256": "5764fa6dc28137bf4cb2348e04400bd73a4663cb22ee14a546ae60e9082f4e15",
+  "outputs": {
+    "base_y7_ebitda": 2910357.78008562,
+    "total_platform_revenue": 34074147.2101306,
+    "platform_margin": 0.0854124906527474,
+    "leadership_redundancy": 0,
+    "base_nearshore_saving": 1532367.55169806,
+    "seven_year_moic": 0.49819875086488,
+    "true_seven_year_irr": -0.159205307136489
+  },
+  "status": "approved_frozen_base",
+  "version": "v2.4.5"
+}

@@ -1,0 +1,277 @@
+{
+  "failures": 0,
+  "passed": true,
+  "tests": [
+    {
+      "details": "actual=['IC Summary', 'Base Case Bridge', 'Evidence & Market', 'Assumptions', 'Acquisition Schedule', 'Anchor QoE', 'Revenue & Durability', 'Org & Capacity', 'Operating Case', 'Transaction & Liquidity', 'Returns', 'Controls', 'Version Bridge']; expected=['IC Summary', 'Base Case Bridge', 'Evidence & Market', 'Assumptions', 'Acquisition Schedule', 'Anchor QoE', 'Revenue & Durability', 'Org & Capacity', 'Operating Case', 'Transaction & Liquidity', 'Returns', 'Controls', 'Version Bridge']",
+      "passed": true,
+      "test": "qa::exact_tab_order"
+    },
+    {
+      "details": "external_links=0",
+      "passed": true,
+      "test": "qa::external_links_zero"
+    },
+    {
+      "details": "Merged ranges must be zero",
+      "passed": true,
+      "test": "qa::merged_cells_zero"
+    },
+    {
+      "details": "Manifest workbook name must match candidate",
+      "passed": true,
+      "test": "qa::manifest_reconciliation"
+    },
+    {
+      "details": "Workbook must match its manifest; a Base repair candidate must supersede the approved Base hash",
+      "passed": true,
+      "test": "qa::version_hash_checks"
+    },
+    {
+      "details": "charts=2 drawings=2",
+      "passed": true,
+      "test": "qa::chart_package_checks"
+    },
+    {
+      "details": "shared_formula_records=0",
+      "passed": true,
+      "test": "qa::shared_formula_records_zero"
+    },
+    {
+      "details": "shared_formula_groups=0",
+      "passed": true,
+      "test": "qa::shared_formula_groups_zero"
+    },
+    {
+      "details": "shared_formulas=0",
+      "passed": true,
+      "test": "qa::shared_formulas_zero"
+    },
+    {
+      "details": "errors=[]",
+      "passed": true,
+      "test": "qa::formula_errors_zero"
+    },
+    {
+      "details": "missing_caches=[]",
+      "passed": true,
+      "test": "qa::missing_caches_zero"
+    },
+    {
+      "details": "long_formulas=[]",
+      "passed": true,
+      "test": "qa::long_formulas_zero"
+    },
+    {
+      "details": "wrapped_cells=[]",
+      "passed": true,
+      "test": "qa::wrapped_populated_cells_zero"
+    },
+    {
+      "details": "bad_formula_colors=[]",
+      "passed": true,
+      "test": "qa::formula_color_convention"
+    },
+    {
+      "details": "dependencies={'IC Summary': ['Acquisition Schedule', 'Anchor QoE', 'Assumptions', 'Controls', 'Operating Case', 'Org & Capacity', 'Returns', 'Revenue & Durability', 'Transaction & Liquidity'], 'Base Case Bridge': ['Assumptions', 'Operating Case', 'Org & Capacity', 'Returns', 'Revenue & Durability', 'Transaction & Liquidity'], 'Assumptions': ['Evidence & Market'], 'Acquisition Schedule': ['Assumptions', 'Evidence & Market'], 'Anchor QoE': ['Acquisition Schedule', 'Assumptions'], 'Revenue & Durability': ['Acquisition Schedule', 'Anchor QoE', 'Assumptions'], 'Org & Capacity': ['Acquisition Schedule', 'Assumptions', 'Evidence & Market', 'Revenue & Durability'], 'Operating Case': ['Acquisition Schedule', 'Assumptions', 'Org & Capacity', 'Revenue & Durability'], 'Transaction & Liquidity': ['Acquisition Schedule', 'Assumptions', 'Operating Case'], 'Returns': ['Acquisition Schedule', 'Assumptions', 'Operating Case', 'Revenue & Durability', 'Transaction & Liquidity'], 'Controls': ['Acquisition Schedule', 'Anchor QoE', 'Assumptions', 'Evidence & Market', 'Operating Case', 'Org & Capacity', 'Returns', 'Revenue & Durability', 'Transaction & Liquidity']}",
+      "passed": true,
+      "test": "qa::dependency_graph"
+    },
+    {
+      "details": "Formula patterns must match manifest baseline",
+      "passed": true,
+      "test": "qa::formula_pattern_regression"
+    },
+    {
+      "details": "Snapshot must match approved golden outputs",
+      "passed": true,
+      "test": "qa::golden_output_checks"
+    },
+    {
+      "details": "All declared economic invariants must hold",
+      "passed": true,
+      "test": "qa::economic_invariants"
+    },
+    {
+      "details": "All declared scenario tests must pass",
+      "passed": true,
+      "test": "qa::scenario_tests"
+    },
+    {
+      "details": "Deterministic presentation checks executed by package/formula suites",
+      "passed": true,
+      "test": "qa::presentation_contract"
+    },
+    {
+      "details": "cached_values_unchanged",
+      "passed": true,
+      "test": "package::cached_values_unchanged"
+    },
+    {
+      "details": "calculation_flags_unchanged",
+      "passed": true,
+      "test": "package::calculation_flags_unchanged"
+    },
+    {
+      "details": "charts_layout_settings_unchanged",
+      "passed": true,
+      "test": "package::charts_layout_settings_unchanged"
+    },
+    {
+      "details": "external_links_unchanged_and_zero",
+      "passed": true,
+      "test": "package::external_links_unchanged_and_zero"
+    },
+    {
+      "details": "formula_count_unchanged",
+      "passed": true,
+      "test": "package::formula_count_unchanged"
+    },
+    {
+      "details": "formula_errors_zero",
+      "passed": true,
+      "test": "package::formula_errors_zero"
+    },
+    {
+      "details": "merged_cells_zero",
+      "passed": true,
+      "test": "package::merged_cells_zero"
+    },
+    {
+      "details": "missing_formula_caches_zero",
+      "passed": true,
+      "test": "package::missing_formula_caches_zero"
+    },
+    {
+      "details": "previously_affected_lineage_exact",
+      "passed": true,
+      "test": "package::previously_affected_lineage_exact"
+    },
+    {
+      "details": "resolved_formula_semantics_unchanged",
+      "passed": true,
+      "test": "package::resolved_formula_semantics_unchanged"
+    },
+    {
+      "details": "shared_formula_groups_zero",
+      "passed": true,
+      "test": "package::shared_formula_groups_zero"
+    },
+    {
+      "details": "shared_formula_records_zero",
+      "passed": true,
+      "test": "package::shared_formula_records_zero"
+    },
+    {
+      "details": "tab_order_unchanged",
+      "passed": true,
+      "test": "package::tab_order_unchanged"
+    },
+    {
+      "details": "wrapped_populated_cells_zero",
+      "passed": true,
+      "test": "package::wrapped_populated_cells_zero"
+    },
+    {
+      "details": "actual=2910357.7800856186; expected=2910357.78008562",
+      "passed": true,
+      "test": "golden::base_y7_ebitda"
+    },
+    {
+      "details": "actual=34074147.21013059; expected=34074147.2101306",
+      "passed": true,
+      "test": "golden::total_platform_revenue"
+    },
+    {
+      "details": "actual=0.08541249065274743; expected=0.0854124906527474",
+      "passed": true,
+      "test": "golden::platform_margin"
+    },
+    {
+      "details": "actual=0; expected=0",
+      "passed": true,
+      "test": "golden::leadership_redundancy"
+    },
+    {
+      "details": "actual=1532367.5516980598; expected=1532367.55169806",
+      "passed": true,
+      "test": "golden::base_nearshore_saving"
+    },
+    {
+      "details": "actual=0.49819875086488025; expected=0.49819875086488",
+      "passed": true,
+      "test": "golden::seven_year_moic"
+    },
+    {
+      "details": "actual=-0.15920530713648884; expected=-0.159205307136489",
+      "passed": true,
+      "test": "golden::true_seven_year_irr"
+    },
+    {
+      "details": "actual=IC Summary; expected=IC Summary",
+      "passed": true,
+      "test": "tab_order::01"
+    },
+    {
+      "details": "actual=Base Case Bridge; expected=Base Case Bridge",
+      "passed": true,
+      "test": "tab_order::02"
+    },
+    {
+      "details": "actual=Evidence & Market; expected=Evidence & Market",
+      "passed": true,
+      "test": "tab_order::03"
+    },
+    {
+      "details": "actual=Assumptions; expected=Assumptions",
+      "passed": true,
+      "test": "tab_order::04"
+    },
+    {
+      "details": "actual=Acquisition Schedule; expected=Acquisition Schedule",
+      "passed": true,
+      "test": "tab_order::05"
+    },
+    {
+      "details": "actual=Anchor QoE; expected=Anchor QoE",
+      "passed": true,
+      "test": "tab_order::06"
+    },
+    {
+      "details": "actual=Revenue & Durability; expected=Revenue & Durability",
+      "passed": true,
+      "test": "tab_order::07"
+    },
+    {
+      "details": "actual=Org & Capacity; expected=Org & Capacity",
+      "passed": true,
+      "test": "tab_order::08"
+    },
+    {
+      "details": "actual=Operating Case; expected=Operating Case",
+      "passed": true,
+      "test": "tab_order::09"
+    },
+    {
+      "details": "actual=Transaction & Liquidity; expected=Transaction & Liquidity",
+      "passed": true,
+      "test": "tab_order::10"
+    },
+    {
+      "details": "actual=Returns; expected=Returns",
+      "passed": true,
+      "test": "tab_order::11"
+    },
+    {
+      "details": "actual=Controls; expected=Controls",
+      "passed": true,
+      "test": "tab_order::12"
+    },
+    {
+      "details": "actual=Version Bridge; expected=Version Bridge",
+      "passed": true,
+      "test": "tab_order::13"
+    }
+  ],
+  "total_tests": 54
+}

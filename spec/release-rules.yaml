@@ -2,14 +2,24 @@ version: 1
 source_of_truth_branch: main
 workbook_edits_require_branch: true
 base_workbook_immutable: true
-approved_base_sha256: afeca42fb998ed83d7b6ba292ce9386c35bbf5b67006785ada03a5a424fe5577
+approved_base_sha256: 5764fa6dc28137bf4cb2348e04400bd73a4663cb22ee14a546ae60e9082f4e15
+desktop_excel_gate_required_before_freeze: true
+desktop_excel_gate_status: PASS
+desktop_verification_copy_sha256: 113f91b0d1e62bfb460928ef4c8faca235cfeccd43a5b3ccad67e65e710ba1f0
 base_hash_mismatch_blocks_release: true
 scenario_base_hash_mismatch_blocks_release: true
+canonical_release_workbook_rules:
+  shared_formula_records_must_equal: 0
+  shared_formula_groups_must_equal: 0
+  desktop_excel_verification_copies_are_evidence_only: true
+  desktop_excel_reserialization_must_not_replace_canonical_workbook: true
 unique_change_request_id_required: true
 max_agent_cycles_before_escalation: 2
 mandatory_tests:
   - exact_tab_order
   - shared_formulas_zero
+  - shared_formula_records_zero
+  - shared_formula_groups_zero
   - formula_errors_zero
   - missing_caches_zero
   - long_formulas_zero
