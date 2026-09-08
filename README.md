@@ -70,7 +70,7 @@ Jack is interrupted only for `PRINCIPAL_DECISION`, `NEW_UNDERWRITING_ASSUMPTION`
 
 ## Desktop Excel gate
 
-Automation stops at `REVIEWED_RELEASE_CANDIDATE`; it does not merge. A changed workbook still requires the desktop Excel full-recalculation/visual verification gate required by `spec/release-rules.yaml`. The recalculated desktop copy is evidence only and must never replace the canonical zero-shared-formula package.
+Automation stops at `REVIEWED_RELEASE_CANDIDATE`; it does not merge. A changed workbook still requires the desktop Excel full-recalculation/visual verification gate required by `spec/release-rules.yaml`. The recalculated desktop copy is evidence only and must never replace the canonical zero-shared-formula package. The frozen Base has already cleared that gate, so `spec/model-spec.yaml` records `desktop_excel_gate: PASS` and `spec/release-rules.yaml` records `desktop_excel_gate_status: PASS`, both of which must remain `PASS`, while its desktop verification copy `model/base-v2.4.5-desktop-recalc.xlsx` (SHA-256 `113f91b0d1e62bfb460928ef4c8faca235cfeccd43a5b3ccad67e65e710ba1f0`) is evidence only and never replaces the canonical `model/base-v2.4.5.xlsx`.
 
 ## Development checks
 

@@ -204,11 +204,12 @@ class SubscriptionCLIAdapter:
             environment.pop(name, None)
         try:
             completed = self.runner(command, input=prompt, text=True, capture_output=True,
-                                    timeout=self.timeout, cwd=ROOT, env=environment)
+                                    timeout=self.timeout, cwd=ROOT, env=environment,
+                                    encoding="utf-8", errors="replace")
         except subprocess.TimeoutExpired as error:
             raise RuntimeError(f"{self.service} CLI timed out after {self.timeout} seconds") from error
         combined = f"{completed.stdout}\n{completed.stderr}"
-        if is_usage_limit(combined):
+        if completed.returncode and is_usage_limit(combined):
             raise SubscriptionLimitError(self.service, combined)
         if completed.returncode:
             raise RuntimeError(f"{self.service} CLI exited {completed.returncode}: {redact(combined)[-2000:]}")
@@ -220,11 +221,31 @@ class ClaudeSubscriptionAdapter(SubscriptionCLIAdapter):
 
     def call(self, request: dict[str, Any]) -> tuple[dict[str, Any], dict[str, Any]]:
         prompt = request["system"] + "\n\n" + request["user"]
+        schema = {
+            "type": "object", "additionalProperties": False,
+            "required": ["summary", "candidate_manifest", "files_changed", "assumptions_used",
+                         "findings_addressed", "escalation", "operations"],
+            "properties": {
+                "summary": {"type": "string"},
+                "candidate_manifest": {"type": "string"},
+                "files_changed": {"type": "array", "items": {"type": "string"}},
+                "assumptions_used": {"type": "array", "items": {}},
+                "findings_addressed": {"type": "array", "items": {}},
+                "escalation": {"type": ["object", "null"]},
+                "operations": {"type": "array", "items": {"type": "object"}},
+            },
+        }
         completed = self._run([self.executable, "-p", "--output-format", "json",
-                               "--permission-mode", "plan"], prompt)
+                               "--json-schema", json.dumps(schema), "--permission-mode", "plan"], prompt)
         outer = extract_json(completed.stdout)
-        text = outer.get("result", "") if isinstance(outer, dict) else str(outer)
-        result = extract_json(text) if isinstance(text, str) else text
+        structured = outer.get("structured_output") if isinstance(outer, dict) else None
+        if structured is not None:
+            result = structured
+        else:
+            text = outer.get("result", "") if isinstance(outer, dict) else str(outer)
+            result = extract_json(text) if isinstance(text, str) else text
+        if not isinstance(result, dict):
+            raise TypeError(f"Claude builder result must be an object, got {type(result).__name__}")
         return result, {"exit_code": completed.returncode, "stdout": redact(completed.stdout),
                         "stderr": redact(completed.stderr)}
 
@@ -367,7 +388,9 @@ class Orchestrator:
         """Commit declared builder artifacts and the audit trail, then open/update a PR."""
         if not self.git_enabled or self.dry_run:
             return
-        paths = {self.run_dir, *self.generated_paths}
+        # Run transcripts are intentionally local/ignored; commit only the approved
+        # change request and files explicitly declared by the builder.
+        paths = {self.change_request_path, *self.generated_paths}
         for path in sorted(paths, key=str):
             resolved = resolve_repo_path(path)
             self._git("add", "--", str(resolved.relative_to(ROOT)))
@@ -529,6 +552,18 @@ class Orchestrator:
             supervisor_ran = False
             checkpoint_path = self.run_dir / "checkpoint.json"
             checkpoint = json.loads(checkpoint_path.read_text(encoding="utf-8")) if self.resume and checkpoint_path.exists() else {}
+            if self.resume and checkpoint.get("stage") == "ORCHESTRATOR_RUNTIME":
+                state_path = self.run_dir / "state.json"
+                state_history = json.loads(state_path.read_text(encoding="utf-8")).get("history", []) if state_path.exists() else []
+                prior_states = [item.get("state") for item in state_history[:-1]]
+                cycle = int(checkpoint.get("cycle", 1))
+                qa_path = self.run_dir / f"cycle-{cycle:02d}" / "qa-report.json"
+                if prior_states and prior_states[-1] == "SUPERVISOR_REVIEW" and qa_path.exists():
+                    saved_qa = json.loads(qa_path.read_text(encoding="utf-8"))
+                    if saved_qa.get("passed") and saved_qa.get("manifest"):
+                        checkpoint = {"stage": "SUPERVISOR_REVIEW", "cycle": cycle,
+                                      "manifest": saved_qa["manifest"], "qa": saved_qa}
+                        write_json(checkpoint_path, checkpoint)
             start_cycle = int(checkpoint.get("cycle", 1))
             for cycle in range(start_cycle, self.max_cycles + 1):
                 cycle_dir = self.run_dir / f"cycle-{cycle:02d}"
@@ -545,10 +580,10 @@ class Orchestrator:
                             builder, raw_builder = self.fallback_builder.call(builder_request)
                         else:
                             return self._pause(error.service, cycle, "BUILDING", error.output)
-                    applied = apply_builder_operations(builder)
-                    builder.setdefault("files_changed", []).extend(applied)
                     write_json(cycle_dir / "claude-response.json", raw_builder)
                     write_json(cycle_dir / "builder-result.json", builder)
+                    applied = apply_builder_operations(builder)
+                    builder.setdefault("files_changed", []).extend(applied)
                     for value in builder.get("files_changed", []):
                         self.generated_paths.add(resolve_repo_path(value))
                 else:

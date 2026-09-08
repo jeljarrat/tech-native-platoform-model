@@ -1,0 +1,26 @@
+change_request_id: CR-2026-002
+title: Clarify the frozen Base desktop Excel gate in README
+status: approved
+requester: Jack
+created_at: 2026-09-08
+base:
+  version: v2.4.5
+  sha256: 5764fa6dc28137bf4cb2348e04400bd73a4663cb22ee14a546ae60e9082f4e15
+scope:
+  authorized_changes:
+    - Add one sentence to README.md clarifying that the frozen Base desktop Excel gate must remain PASS and that its verification copy is evidence-only.
+    - Use scenarios/TASK-C-PATH-10M/manifest.yaml as the unchanged candidate manifest for deterministic QA.
+  prohibited_changes:
+    - Any workbook modification.
+    - Any underwriting, economic, formula, assumption, scenario, or model-specification change.
+    - Any change outside README.md and run-local reports/runs artifacts.
+assumptions: []
+evidence_ids: []
+decision_ids: []
+acceptance_criteria:
+  - README.md contains exactly one new sentence describing the frozen Base desktop Excel gate and evidence-only verification copy.
+  - Frozen Base SHA-256 remains 5764fa6dc28137bf4cb2348e04400bd73a4663cb22ee14a546ae60e9082f4e15.
+  - Deterministic QA passes against scenarios/TASK-C-PATH-10M/manifest.yaml.
+  - Codex supervisor returns no blocking findings.
+scenario_ids:
+  - TASK-C-PATH-10M

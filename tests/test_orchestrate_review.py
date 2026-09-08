@@ -139,6 +139,15 @@ class OrchestrationTests(unittest.TestCase):
         self.assertEqual(result["candidate_manifest"], MANIFEST)
         self.assertEqual(raw["exit_code"], 0)
 
+    def test_successful_cli_output_can_mention_usage_limits(self):
+        response = builder_response()
+        response["summary"] = "Document how to resume after a usage limit"
+        payload = json.dumps({"result": json.dumps(response), "structured_output": response})
+        completed = __import__("subprocess").CompletedProcess([], 0, payload, "")
+        adapter = ClaudeSubscriptionAdapter("claude", runner=lambda *a, **k: completed)
+        result, _ = adapter.call({"system": "builder", "user": "request"})
+        self.assertEqual(result["candidate_manifest"], MANIFEST)
+
     def test_subscription_mode_codex_mock(self):
         completed = __import__("subprocess").CompletedProcess([], 0, json.dumps(review(1)), "")
         adapter = CodexSubscriptionAdapter("codex", runner=lambda *a, **k: completed)
