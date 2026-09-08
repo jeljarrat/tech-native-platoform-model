@@ -27,6 +27,12 @@ def sha256(path: Path) -> str:
     return h.hexdigest()
 
 
+def text_sha256(path: Path) -> str:
+    """Hash canonical UTF-8/LF text so provenance is checkout-platform independent."""
+    canonical = path.read_text(encoding="utf-8").replace("\r\n", "\n").replace("\r", "\n")
+    return hashlib.sha256(canonical.encode("utf-8")).hexdigest()
+
+
 def close(a: float, b: float, tol: float = 1e-7) -> bool:
     return math.isclose(float(a), float(b), rel_tol=tol, abs_tol=tol)
 
@@ -71,7 +77,8 @@ def run_checks(repo: Path, write_reports: bool = True) -> dict:
     check("TC-BASE-HASH", sha256(base), BASE_HASH, sha256(base) == BASE_HASH, "provenance")
     check("TC-CONFIG-HASH", config["base"]["sha256"], BASE_HASH, config["base"]["sha256"] == BASE_HASH, "provenance")
     check("TC-MANIFEST-WORKBOOK-HASH", manifest["workbook"]["sha256"], sha256(candidate), manifest["workbook"]["sha256"] == sha256(candidate), "provenance")
-    check("TC-MANIFEST-CONFIG-HASH", manifest["scenario_config"]["sha256"], sha256(config_path), manifest["scenario_config"]["sha256"] == sha256(config_path), "provenance")
+    canonical_config_hash = text_sha256(config_path)
+    check("TC-MANIFEST-CONFIG-HASH", manifest["scenario_config"]["sha256"], canonical_config_hash, manifest["scenario_config"]["sha256"] == canonical_config_hash, "provenance")
     check("TC-TAB-ORDER", wb_f.sheetnames, BASE_TABS + SCENARIO_TABS, wb_f.sheetnames == BASE_TABS + SCENARIO_TABS, "package")
 
     formula_diffs = []
