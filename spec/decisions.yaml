@@ -1,5 +1,11 @@
 version: 1
-decisions: []
+decisions:
+  - decision_id: DEC-2026-TC-LAUNCH
+    status: approved
+    owner: Jack
+    question: Build and independently review a least-aggressive compliant Path-to-$10m EBITDA scenario from frozen Base v2.4.5?
+    decision: Approved with the bounds, priority order, TC-27 correction, cohort-maturity method, and escalation policy in CR-2026-001.
+    decided_at: 2026-09-08
 # Add principal decisions as immutable records:
 # - decision_id: DEC-YYYY-NNN
 #   status: approved
@@ -7,4 +13,3 @@ decisions: []
 #   question: "..."
 #   decision: "..."
 #   decided_at: YYYY-MM-DD
-

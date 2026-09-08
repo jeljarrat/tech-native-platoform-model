@@ -213,6 +213,9 @@ tempCodeRunnerFile.py
 model/base-v2.4.5-desktop-recalc.xlsx
 model/~$base-v2.4.5-desktop-recalc.xlsx
 
+# Native Excel authoring copy. Canonical scenario candidates are zero-shared-formula packages.
+scenarios/**/task-c-path-to-10m-working.xlsx
+
 # Marimo
 marimo/_static/
 marimo/_lsp/

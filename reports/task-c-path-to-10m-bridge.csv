@@ -1,0 +1,20 @@
+line,Downside,Base,Upside,source
+Contracted acquired EBITDA,5171512.023632741,5171512.023632741,5171512.023632741,Frozen
+Organic core EBITDA,1228487.9763672594,1228487.9763672594,1228487.9763672594,Frozen Base 4% uplift
+Seller payroll eliminated,8528944.597015448,8528944.597015448,8528944.597015448,Frozen seller pool
+Same-scope replacement payroll,-4398188.351278617,-4398188.351278617,-4398188.351278617,US-cost allocation
+R004 leadership rationalization,1325144.6770013308,1609104.250644473,1703757.4418588541,Actual modeled R004 seller payroll; post-12 months
+Nearshore savings,1532367.5516980598,1532367.5516980598,1532367.5516980598,Base R006/R007/R008 only
+New-function institutionalization,-3092706.2081763325,-3092706.2081763325,-3092706.2081763325,US-cost allocation
+Organic-growth shared-services cost,-1198112.089835091,-1198112.089835091,-1198112.089835091,US-cost allocation
+Project / construction GP,713663.8396996462,792959.8218884957,792959.8218884957,Separate episodic stream
+Maintenance / turns GP,1375232.1999944558,1528035.7777716178,1528035.7777716178,Separate stream
+Procurement / insurance GP,0,0,0,Zero; prevents vendor-savings overlap
+Resident / ancillary GP,0,197657.9651650921,109792.00950943185,Separate stream
+Layer 1 GP,2291653.8852577517,2546282.0947308354,2546282.0947308354,Separate layer
+Layer 2 GP,0,0,0,Zero; no delivery payroll
+Layer 3 GP,0,0,0,Zero
+BD / commissions / travel / implementation,0,0,0,Zero because organic uplift remains 4%
+Transition / complexity / integration,-1480941.8176773158,-1480941.8176773158,-1480941.8176773158,Frozen Base
+HoldCo cost,-2965403.5919466657,-2965403.5919466657,-2965403.5919466657,No role deletion / no G&A zeroing
+Final Y7 EBITDA,9031654.691752668,10000000,10006787.235558718,Sum of bridge

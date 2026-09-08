@@ -1,0 +1,510 @@
+{
+  "schema_version": "1.0",
+  "scenario_id": "TASK-C-PATH-10M",
+  "change_request_id": "CR-2026-001",
+  "identity": {
+    "candidate": "scenarios/TASK-C-PATH-10M/task-c-path-to-10m-v1.xlsx",
+    "candidate_sha256": "ce321277f84caf682622a3a47f5962813a872509b252297fcd7196c09106ba73",
+    "base_sha256": "5764fa6dc28137bf4cb2348e04400bd73a4663cb22ee14a546ae60e9082f4e15"
+  },
+  "summary": {
+    "total": 39,
+    "passed": 39,
+    "failed": 0,
+    "release_blockers": 0
+  },
+  "package": {
+    "formula_count": 18551,
+    "shared_records": 0,
+    "shared_groups": 0,
+    "missing_caches": 0,
+    "max_formula_length": 943
+  },
+  "tests": [
+    {
+      "test_id": "TC-BASE-HASH",
+      "suite": "provenance",
+      "passed": true,
+      "severity": "RELEASE_BLOCKER",
+      "blocks_release": true,
+      "actual": "5764fa6dc28137bf4cb2348e04400bd73a4663cb22ee14a546ae60e9082f4e15",
+      "expected": "5764fa6dc28137bf4cb2348e04400bd73a4663cb22ee14a546ae60e9082f4e15",
+      "details": ""
+    },
+    {
+      "test_id": "TC-CONFIG-HASH",
+      "suite": "provenance",
+      "passed": true,
+      "severity": "RELEASE_BLOCKER",
+      "blocks_release": true,
+      "actual": "5764fa6dc28137bf4cb2348e04400bd73a4663cb22ee14a546ae60e9082f4e15",
+      "expected": "5764fa6dc28137bf4cb2348e04400bd73a4663cb22ee14a546ae60e9082f4e15",
+      "details": ""
+    },
+    {
+      "test_id": "TC-TAB-ORDER",
+      "suite": "package",
+      "passed": true,
+      "severity": "RELEASE_BLOCKER",
+      "blocks_release": true,
+      "actual": [
+        "IC Summary",
+        "Base Case Bridge",
+        "Evidence & Market",
+        "Assumptions",
+        "Acquisition Schedule",
+        "Anchor QoE",
+        "Revenue & Durability",
+        "Org & Capacity",
+        "Operating Case",
+        "Transaction & Liquidity",
+        "Returns",
+        "Controls",
+        "Version Bridge",
+        "TC Inputs",
+        "TC Cohorts",
+        "TC Economics",
+        "TC Debt & Returns",
+        "TC Output",
+        "TC Sensitivity"
+      ],
+      "expected": [
+        "IC Summary",
+        "Base Case Bridge",
+        "Evidence & Market",
+        "Assumptions",
+        "Acquisition Schedule",
+        "Anchor QoE",
+        "Revenue & Durability",
+        "Org & Capacity",
+        "Operating Case",
+        "Transaction & Liquidity",
+        "Returns",
+        "Controls",
+        "Version Bridge",
+        "TC Inputs",
+        "TC Cohorts",
+        "TC Economics",
+        "TC Debt & Returns",
+        "TC Output",
+        "TC Sensitivity"
+      ],
+      "details": ""
+    },
+    {
+      "test_id": "TC-BASE-FORMULA-SEMANTICS",
+      "suite": "semantic_regression",
+      "passed": true,
+      "severity": "RELEASE_BLOCKER",
+      "blocks_release": true,
+      "actual": 0,
+      "expected": 0,
+      "details": ""
+    },
+    {
+      "test_id": "TC-BASE-VALUES",
+      "suite": "semantic_regression",
+      "passed": true,
+      "severity": "RELEASE_BLOCKER",
+      "blocks_release": true,
+      "actual": 0,
+      "expected": 0,
+      "details": ""
+    },
+    {
+      "test_id": "TC-BASE-STYLES",
+      "suite": "presentation",
+      "passed": true,
+      "severity": "RELEASE_BLOCKER",
+      "blocks_release": true,
+      "actual": 0,
+      "expected": 0,
+      "details": ""
+    },
+    {
+      "test_id": "TC-SHARED-RECORDS",
+      "suite": "package",
+      "passed": true,
+      "severity": "RELEASE_BLOCKER",
+      "blocks_release": true,
+      "actual": 0,
+      "expected": 0,
+      "details": ""
+    },
+    {
+      "test_id": "TC-SHARED-GROUPS",
+      "suite": "package",
+      "passed": true,
+      "severity": "RELEASE_BLOCKER",
+      "blocks_release": true,
+      "actual": 0,
+      "expected": 0,
+      "details": ""
+    },
+    {
+      "test_id": "TC-MISSING-CACHES",
+      "suite": "package",
+      "passed": true,
+      "severity": "RELEASE_BLOCKER",
+      "blocks_release": true,
+      "actual": 0,
+      "expected": 0,
+      "details": ""
+    },
+    {
+      "test_id": "TC-EXTERNAL-LINKS",
+      "suite": "package",
+      "passed": true,
+      "severity": "RELEASE_BLOCKER",
+      "blocks_release": true,
+      "actual": 0,
+      "expected": 0,
+      "details": ""
+    },
+    {
+      "test_id": "TC-CHART-COUNT",
+      "suite": "presentation",
+      "passed": true,
+      "severity": "RELEASE_BLOCKER",
+      "blocks_release": true,
+      "actual": 2,
+      "expected": 2,
+      "details": ""
+    },
+    {
+      "test_id": "TC-CHART-LINEAGE",
+      "suite": "presentation",
+      "passed": true,
+      "severity": "RELEASE_BLOCKER",
+      "blocks_release": true,
+      "actual": [
+        "'IC Summary'!$T$100:$T$109",
+        "'IC Summary'!$U$100:$U$109",
+        "'IC Summary'!$T$100:$T$109",
+        "'IC Summary'!$V$100:$V$109",
+        "'IC Summary'!$A$14",
+        "'IC Summary'!$D$13:$G$13",
+        "'IC Summary'!$D$14:$G$14",
+        "'IC Summary'!$A$18",
+        "'IC Summary'!$D$13:$G$13",
+        "'IC Summary'!$D$18:$G$18",
+        "'IC Summary'!$A$19",
+        "'IC Summary'!$D$13:$G$13",
+        "'IC Summary'!$D$19:$G$19"
+      ],
+      "expected": [
+        "'IC Summary'!$T$100:$T$109",
+        "'IC Summary'!$U$100:$U$109",
+        "'IC Summary'!$T$100:$T$109",
+        "'IC Summary'!$V$100:$V$109",
+        "'IC Summary'!$A$14",
+        "'IC Summary'!$D$13:$G$13",
+        "'IC Summary'!$D$14:$G$14",
+        "'IC Summary'!$A$18",
+        "'IC Summary'!$D$13:$G$13",
+        "'IC Summary'!$D$18:$G$18",
+        "'IC Summary'!$A$19",
+        "'IC Summary'!$D$13:$G$13",
+        "'IC Summary'!$D$19:$G$19"
+      ],
+      "details": ""
+    },
+    {
+      "test_id": "TC-MERGED-CELLS",
+      "suite": "presentation",
+      "passed": true,
+      "severity": "RELEASE_BLOCKER",
+      "blocks_release": true,
+      "actual": 0,
+      "expected": 0,
+      "details": ""
+    },
+    {
+      "test_id": "TC-WRAPPED-POPULATED",
+      "suite": "presentation",
+      "passed": true,
+      "severity": "RELEASE_BLOCKER",
+      "blocks_release": true,
+      "actual": 0,
+      "expected": 0,
+      "details": ""
+    },
+    {
+      "test_id": "TC-FORMULA-ERRORS",
+      "suite": "formula",
+      "passed": true,
+      "severity": "RELEASE_BLOCKER",
+      "blocks_release": true,
+      "actual": 0,
+      "expected": 0,
+      "details": ""
+    },
+    {
+      "test_id": "TC-FORMULA-LENGTH",
+      "suite": "formula",
+      "passed": true,
+      "severity": "RELEASE_BLOCKER",
+      "blocks_release": true,
+      "actual": 943,
+      "expected": 1000,
+      "details": ""
+    },
+    {
+      "test_id": "TC-Y7-EBITDA",
+      "suite": "economics",
+      "passed": true,
+      "severity": "RELEASE_BLOCKER",
+      "blocks_release": true,
+      "actual": 10000000,
+      "expected": 10000000,
+      "details": ""
+    },
+    {
+      "test_id": "TC-Y7-UNITS",
+      "suite": "economics",
+      "passed": true,
+      "severity": "RELEASE_BLOCKER",
+      "blocks_release": true,
+      "actual": 50000,
+      "expected": 50000,
+      "details": ""
+    },
+    {
+      "test_id": "TC-MARGIN-FLOOR",
+      "suite": "economics",
+      "passed": true,
+      "severity": "RELEASE_BLOCKER",
+      "blocks_release": true,
+      "actual": 0.1744982525325722,
+      "expected": 0.15,
+      "details": ""
+    },
+    {
+      "test_id": "TC-MARGIN-CAP",
+      "suite": "economics",
+      "passed": true,
+      "severity": "RELEASE_BLOCKER",
+      "blocks_release": true,
+      "actual": 0.1744982525325722,
+      "expected": 0.175,
+      "details": ""
+    },
+    {
+      "test_id": "TC-ACQUISITION-MARGIN",
+      "suite": "economics",
+      "passed": true,
+      "severity": "RELEASE_BLOCKER",
+      "blocks_release": true,
+      "actual": 0.15000000000000005,
+      "expected": 0.15,
+      "details": ""
+    },
+    {
+      "test_id": "TC-SENIOR-LEVERAGE",
+      "suite": "capital",
+      "passed": true,
+      "severity": "RELEASE_BLOCKER",
+      "blocks_release": true,
+      "actual": 0.5970441297976585,
+      "expected": 2.75,
+      "details": ""
+    },
+    {
+      "test_id": "TC-TOTAL-LEVERAGE",
+      "suite": "capital",
+      "passed": true,
+      "severity": "RELEASE_BLOCKER",
+      "blocks_release": true,
+      "actual": 0.9345441297976586,
+      "expected": 3.5,
+      "details": ""
+    },
+    {
+      "test_id": "TC-DSCR",
+      "suite": "capital",
+      "passed": true,
+      "severity": "RELEASE_BLOCKER",
+      "blocks_release": true,
+      "actual": 4.465582954209281,
+      "expected": 1.25,
+      "details": ""
+    },
+    {
+      "test_id": "TC-CASE-ORDER",
+      "suite": "economics",
+      "passed": true,
+      "severity": "RELEASE_BLOCKER",
+      "blocks_release": true,
+      "actual": [
+        9031654.69175267,
+        10000000,
+        10006787.23555872
+      ],
+      "expected": "Downside < Base < Upside",
+      "details": ""
+    },
+    {
+      "test_id": "TC-UNITS-Y1-Y10",
+      "suite": "economics",
+      "passed": true,
+      "severity": "RELEASE_BLOCKER",
+      "blocks_release": true,
+      "actual": 50000,
+      "expected": 50000,
+      "details": ""
+    },
+    {
+      "test_id": "TC-TC27-PER-UNIT",
+      "suite": "economics",
+      "passed": true,
+      "severity": "RELEASE_BLOCKER",
+      "blocks_release": true,
+      "actual": 199.85038913072162,
+      "expected": 199.850389130575,
+      "details": ""
+    },
+    {
+      "test_id": "TC-TC27-Y7",
+      "suite": "economics",
+      "passed": true,
+      "severity": "RELEASE_BLOCKER",
+      "blocks_release": true,
+      "actual": 8074442.893097273,
+      "expected": 8074442.893103194,
+      "details": ""
+    },
+    {
+      "test_id": "TC-TC27-EBITDA",
+      "suite": "economics",
+      "passed": true,
+      "severity": "RELEASE_BLOCKER",
+      "blocks_release": true,
+      "actual": 0,
+      "expected": 0,
+      "details": ""
+    },
+    {
+      "test_id": "TC-COHORT-MATURITY",
+      "suite": "cohorts",
+      "passed": true,
+      "severity": "RELEASE_BLOCKER",
+      "blocks_release": true,
+      "actual": 0,
+      "expected": 0,
+      "details": ""
+    },
+    {
+      "test_id": "TC-MATURITY-BOUNDS",
+      "suite": "cohorts",
+      "passed": true,
+      "severity": "RELEASE_BLOCKER",
+      "blocks_release": true,
+      "actual": [
+        0,
+        1
+      ],
+      "expected": "0..1",
+      "details": ""
+    },
+    {
+      "test_id": "TC-ADOPTION-CAPS",
+      "suite": "economics",
+      "passed": true,
+      "severity": "RELEASE_BLOCKER",
+      "blocks_release": true,
+      "actual": 0,
+      "expected": 0,
+      "details": ""
+    },
+    {
+      "test_id": "TC-PROCUREMENT-OVERLAP",
+      "suite": "double_count",
+      "passed": true,
+      "severity": "RELEASE_BLOCKER",
+      "blocks_release": true,
+      "actual": {
+        "Downside": 0.0,
+        "Base": 0.0,
+        "Upside": 0.0
+      },
+      "expected": {
+        "Downside": 0.0,
+        "Base": 0.0,
+        "Upside": 0.0
+      },
+      "details": ""
+    },
+    {
+      "test_id": "TC-OPTIONAL-NEARSHORE",
+      "suite": "double_count",
+      "passed": true,
+      "severity": "RELEASE_BLOCKER",
+      "blocks_release": true,
+      "actual": {
+        "R009": 0.0,
+        "R013": 0.0
+      },
+      "expected": {
+        "R009": 0,
+        "R013": 0
+      },
+      "details": ""
+    },
+    {
+      "test_id": "TC-HOLDCO-PRESERVED",
+      "suite": "governance",
+      "passed": true,
+      "severity": "RELEASE_BLOCKER",
+      "blocks_release": true,
+      "actual": [
+        -1972440.2133674652,
+        -992963.3785792004
+      ],
+      "expected": [
+        -1972440.2133674652,
+        -992963.3785792004
+      ],
+      "details": ""
+    },
+    {
+      "test_id": "TC-EPISODIC-EXIT",
+      "suite": "returns",
+      "passed": true,
+      "severity": "RELEASE_BLOCKER",
+      "blocks_release": true,
+      "actual": 87466881.6920593,
+      "expected": 95000000,
+      "details": ""
+    },
+    {
+      "test_id": "TC-BRIDGE-RECONCILIATION",
+      "suite": "double_count",
+      "passed": true,
+      "severity": "RELEASE_BLOCKER",
+      "blocks_release": true,
+      "actual": 10000000.0,
+      "expected": 10000000,
+      "details": ""
+    },
+    {
+      "test_id": "TC-BRIDGE-TO-EBITDA",
+      "suite": "double_count",
+      "passed": true,
+      "severity": "RELEASE_BLOCKER",
+      "blocks_release": true,
+      "actual": 10000000,
+      "expected": 10000000,
+      "details": ""
+    },
+    {
+      "test_id": "TC-66-CONTROLS-PRESERVED",
+      "suite": "controls",
+      "passed": true,
+      "severity": "RELEASE_BLOCKER",
+      "blocks_release": true,
+      "actual": 0,
+      "expected": 0,
+      "details": ""
+    }
+  ]
+}

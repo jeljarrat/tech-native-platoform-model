@@ -1,0 +1,67 @@
+schema_version: "1.0"
+artifact_type: scenario_candidate
+scenario_id: TASK-C-PATH-10M
+change_request_id: CR-2026-001
+status: reviewed_release_candidate
+workbook:
+  path: scenarios/TASK-C-PATH-10M/task-c-path-to-10m-v1.xlsx
+  sha256: ce321277f84caf682622a3a47f5962813a872509b252297fcd7196c09106ba73
+derived_from:
+  path: model/base-v2.4.5.xlsx
+  sha256: 5764fa6dc28137bf4cb2348e04400bd73a4663cb22ee14a546ae60e9082f4e15
+  verified_at_build: true
+scenario_config:
+  path: scenarios/TASK-C-PATH-10M/scenario.yaml
+  sha256: de4d39d0f7bea19c0671d22ffaf6b8cf7fd2634bf71330661ac7f640bd2ef3ad
+base_tab_order:
+  - IC Summary
+  - Base Case Bridge
+  - Evidence & Market
+  - Assumptions
+  - Acquisition Schedule
+  - Anchor QoE
+  - Revenue & Durability
+  - Org & Capacity
+  - Operating Case
+  - Transaction & Liquidity
+  - Returns
+  - Controls
+  - Version Bridge
+expected_tab_order:
+  - IC Summary
+  - Base Case Bridge
+  - Evidence & Market
+  - Assumptions
+  - Acquisition Schedule
+  - Anchor QoE
+  - Revenue & Durability
+  - Org & Capacity
+  - Operating Case
+  - Transaction & Liquidity
+  - Returns
+  - Controls
+  - Version Bridge
+  - TC Inputs
+  - TC Cohorts
+  - TC Economics
+  - TC Debt & Returns
+  - TC Output
+  - TC Sensitivity
+authorized_mutations:
+  mode: append_only
+  worksheets: [TC Inputs, TC Cohorts, TC Economics, TC Debt & Returns, TC Output, TC Sensitivity]
+  base_worksheets: none
+calculation_evidence:
+  engine: Microsoft Excel desktop
+  full_recalc: true
+  working_copy_evidence_only: true
+  canonical_shared_formula_records: 0
+artifacts:
+  output_snapshot: reports/task-c-output-snapshot.json
+  qa_report: reports/task-c-qa-report.json
+  supervisor_findings: reports/task-c-codex-supervisor-findings.json
+  bridge: reports/task-c-path-to-10m-bridge.csv
+  sensitivity: reports/task-c-sensitivity.csv
+  release_memo: reports/task-c-release-memo.md
+  shared_formula_report: reports/task-c-shared-formula-expansion.json
+  frozen_base_54_gate: reports/task-c-base-54-gate.json
