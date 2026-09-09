@@ -29,6 +29,11 @@ import yaml
 ROOT = Path(__file__).resolve().parents[1]
 BASE = ROOT / "model" / "base-v2.4.5.xlsx"
 BASE_SHA256 = "5764fa6dc28137bf4cb2348e04400bd73a4663cb22ee14a546ae60e9082f4e15"
+CANONICAL_CONTEXT_FILES = (
+    "CLAUDE.md", "AGENTS.md", "context/project-overview.md",
+    "context/model-governance.md", "context/evidence-and-decisions.md",
+    "context/current-state.md", "context/review-protocol.md",
+)
 RUN_STATES = {
     "BUILDING", "QA_FAILED", "SUPERVISOR_REVIEW", "PATCHING",
     "ESCALATION_REQUIRED", "REVIEWED_RELEASE_CANDIDATE", "SUBSCRIPTION_LIMIT_PAUSED",
@@ -126,6 +131,8 @@ def apply_builder_operations(result: dict[str, Any]) -> list[str]:
         target = resolve_repo_path(operation.get("path", ""))
         if target == BASE:
             raise RuntimeError("Builder attempted to modify the frozen Base")
+        if target.relative_to(ROOT).as_posix() in CANONICAL_CONTEXT_FILES:
+            raise RuntimeError(f"Builder attempted to modify canonical context: {target.relative_to(ROOT)}")
         if kind == "write_text":
             target.parent.mkdir(parents=True, exist_ok=True)
             target.write_text(operation.get("content", ""), encoding="utf-8")
@@ -357,6 +364,27 @@ class Orchestrator:
         self.history: list[dict[str, Any]] = []
         self.pr_url: str | None = None
         self.generated_paths: set[Path] = set()
+        self.context_hashes: dict[str, str] = {}
+
+    def _read_context(self) -> dict[str, str]:
+        missing = [name for name in CANONICAL_CONTEXT_FILES if not (ROOT / name).is_file()]
+        if missing:
+            raise RuntimeError(f"Required canonical context files missing: {', '.join(missing)}")
+        return {name: sha256(ROOT / name) for name in CANONICAL_CONTEXT_FILES}
+
+    def _verify_context(self) -> None:
+        actual = self._read_context()
+        if actual != self.context_hashes:
+            changed = sorted(name for name in set(actual) | set(self.context_hashes)
+                             if actual.get(name) != self.context_hashes.get(name))
+            raise RuntimeError(f"Canonical context changed during modeling run: {', '.join(changed)}")
+
+    def _context_bundle(self, *, claude: bool) -> str:
+        names = CANONICAL_CONTEXT_FILES if claude else CANONICAL_CONTEXT_FILES[1:]
+        return "\n".join(
+            f'<document source="{name}" sha256="{self.context_hashes[name]}">\n'
+            f'{(ROOT / name).read_text(encoding="utf-8")}\n</document>' for name in names
+        )
 
     def _state(self, state: str, cycle: int, **extra: Any) -> None:
         if state not in RUN_STATES:
@@ -426,10 +454,20 @@ class Orchestrator:
             chunks.append(f"<document source=\"{path.relative_to(ROOT)}\">\n{path.read_text(encoding='utf-8')}\n</document>")
         return "\n".join(chunks)
 
+    def _prior_findings(self, cycle: int) -> list[dict[str, Any]]:
+        findings: list[dict[str, Any]] = []
+        for prior_cycle in range(1, cycle):
+            path = self.run_dir / f"cycle-{prior_cycle:02d}" / "findings.json"
+            if path.exists():
+                findings.extend(json.loads(path.read_text(encoding="utf-8")))
+        return findings
+
     def _builder_request(self, cycle: int, feedback: dict[str, Any] | None) -> dict[str, Any]:
         user = (
+            f"<canonical_context>\n{self._context_bundle(claude=True)}\n</canonical_context>\n"
             f"<change_request>\n{self.change_request_path.read_text(encoding='utf-8')}\n</change_request>\n"
             f"{self._spec_bundle()}\n<cycle>{cycle}</cycle>\n"
+            f"<prior_findings>{json.dumps(self._prior_findings(cycle), indent=2)}</prior_findings>\n"
             f"<automated_feedback>{json.dumps(feedback or {}, indent=2)}</automated_feedback>\n"
             "Work in the repository checkout. Return one JSON object with keys summary, candidate_manifest, "
             "files_changed, assumptions_used, findings_addressed, escalation (null or authorized category package), "
@@ -441,8 +479,9 @@ class Orchestrator:
 
     def _supervisor_request(self, cycle: int, manifest: Path, qa: dict[str, Any]) -> dict[str, Any]:
         schema = json.loads((ROOT / "reports" / "review-schema.json").read_text(encoding="utf-8"))
-        user = json.dumps({"change_request": self.request, "cycle": cycle,
-                           "candidate_manifest": read_yaml(manifest), "qa_report": qa}, indent=2, default=str)
+        user = self._context_bundle(claude=False) + "\n" + self._spec_bundle() + "\n" + json.dumps({
+            "change_request": self.request, "cycle": cycle, "prior_findings": self._prior_findings(cycle),
+            "candidate_manifest": read_yaml(manifest), "qa_report": qa}, indent=2, default=str)
         return {"system": (ROOT / "prompts" / "codex-supervisor.md").read_text(encoding="utf-8"),
                 "user": user, "schema": schema}
 
@@ -502,8 +541,8 @@ class Orchestrator:
                  "candidate_hash": sha256(candidate) if candidate and candidate.exists() else None,
                  "base_hash": sha256(BASE), "qa_status": "PASS" if qa and qa.get("passed") else ("FAIL" if qa else "NOT_RUN"),
                  "supervisor_status": "PASS" if findings == [] else ("BLOCKED" if findings is not None else "NOT_RUN"),
-                 "number_of_cycles": cycle, "unresolved_findings": findings or [], "pr_url": self.pr_url,
-                 "desktop_excel_gate_required": "YES", "error": error}
+                  "number_of_cycles": cycle, "unresolved_findings": findings or [], "pr_url": self.pr_url,
+                  "desktop_excel_gate_required": "YES", "context_hashes": self.context_hashes, "error": error}
         write_json(self.run_dir / "final.json", final)
         return RunResult(status, 0 if status == "REVIEWED_RELEASE_CANDIDATE" else 2 if status == "ESCALATION_REQUIRED" else 1, final)
 
@@ -540,9 +579,19 @@ class Orchestrator:
             shutil.copy2(self.change_request_path, self.run_dir / "change-request.yaml")
         try:
             self._verify_base()
+            current_context = self._read_context()
+            run_path = self.run_dir / "run.json"
+            if self.resume and run_path.exists():
+                pinned = json.loads(run_path.read_text(encoding="utf-8")).get("context_hashes", {})
+                if pinned != current_context:
+                    raise RuntimeError("Canonical context differs from the hashes pinned when this run started")
+                self.context_hashes = pinned
+            else:
+                self.context_hashes = current_context
             branch = self._prepare_branch()
             write_json(self.run_dir / "run.json", {"run_id": self.run_id, "branch": branch,
-                       "change_request": self.request_id, "started_at": utc_now(), "base_hash": sha256(BASE)})
+                       "change_request": self.request_id, "started_at": utc_now(), "base_hash": sha256(BASE),
+                       "context_hashes": self.context_hashes})
             if self.dry_run:
                 return self._finish("REVIEWED_RELEASE_CANDIDATE", 0)
             feedback: dict[str, Any] | None = None
@@ -582,7 +631,9 @@ class Orchestrator:
                             return self._pause(error.service, cycle, "BUILDING", error.output)
                     write_json(cycle_dir / "claude-response.json", raw_builder)
                     write_json(cycle_dir / "builder-result.json", builder)
+                    self._verify_context()
                     applied = apply_builder_operations(builder)
+                    self._verify_context()
                     builder.setdefault("files_changed", []).extend(applied)
                     for value in builder.get("files_changed", []):
                         self.generated_paths.add(resolve_repo_path(value))
@@ -607,12 +658,14 @@ class Orchestrator:
                     "cycle": cycle, "base_sha256": sha256(BASE),
                     "manifest_sha256": sha256(last_manifest),
                     "candidate_sha256": sha256(candidate) if candidate and candidate.exists() else None,
+                    "context_hashes": self.context_hashes,
                 })
                 qa_path = cycle_dir / "qa-report.json"
                 if resume_supervisor:
                     last_qa, qa_code = checkpoint["qa"], 0
                 else:
                     qa_code, last_qa = self.qa_runner(last_manifest, qa_path)
+                    self._verify_context()
                     write_json(qa_path, last_qa)
                 defects = self._qa_defects(last_qa)
                 if qa_code not in (0, 1) or last_qa.get("infrastructure_error"):
@@ -634,6 +687,7 @@ class Orchestrator:
                 if checkpoint_path.exists():
                     checkpoint_path.unlink()
                 supervisor_ran = True
+                self._verify_context()
                 write_json(cycle_dir / "codex-response.json", raw_review)
                 jsonschema.validate(review, supervisor_request["schema"])
                 last_findings = review["findings"]

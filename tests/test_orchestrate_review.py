@@ -6,7 +6,7 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from scripts.orchestrate_review import (BASE_SHA256, ClaudeSubscriptionAdapter,
+from scripts.orchestrate_review import (BASE_SHA256, CANONICAL_CONTEXT_FILES, ClaudeSubscriptionAdapter,
     AnthropicBuilderAdapter, CodexSubscriptionAdapter, OpenAISupervisorAdapter,
     Orchestrator, ROOT, SubscriptionLimitError, TranscriptAdapter,
     subscription_preflight)
@@ -130,6 +130,50 @@ class OrchestrationTests(unittest.TestCase):
                     "cycle-01/codex-response.json", "cycle-01/findings.json"]
         for name in required:
             self.assertTrue((orch.run_dir / name).exists(), name)
+
+    def test_both_agents_receive_canonical_context_and_hashes_are_reported(self):
+        orch = self.make([builder_response()], [review(1)], [{"passed": True, "results": []}])
+        result = orch.run()
+        for name in CANONICAL_CONTEXT_FILES:
+            self.assertIn(name, orch.builder.calls[0]["user"])
+        self.assertNotIn('<document source="CLAUDE.md"', orch.supervisor.calls[0]["user"])
+        for name in CANONICAL_CONTEXT_FILES[1:]:
+            self.assertIn(name, orch.supervisor.calls[0]["user"])
+        run = json.loads((orch.run_dir / "run.json").read_text())
+        hashes = json.loads((orch.run_dir / "cycle-01" / "hashes.json").read_text())
+        self.assertEqual(run["context_hashes"], hashes["context_hashes"])
+        self.assertEqual(run["context_hashes"], result.payload["context_hashes"])
+        self.assertEqual(set(run["context_hashes"]), set(CANONICAL_CONTEXT_FILES))
+        self.assertEqual(result.status, "REVIEWED_RELEASE_CANDIDATE")
+
+    def test_missing_context_blocks_before_agent_invocation(self):
+        orch = self.make([], [], [])
+        with patch("scripts.orchestrate_review.CANONICAL_CONTEXT_FILES", CANONICAL_CONTEXT_FILES + ("context/missing.md",)):
+            result = orch.run()
+        self.assertEqual(result.status, "INFRASTRUCTURE_FAILED")
+        self.assertEqual(orch.builder.calls, [])
+        self.assertIn("Required canonical context files missing", result.payload["infrastructure_error"]["message"])
+
+    def test_changed_context_mid_run_is_detected(self):
+        orch = self.make([builder_response()], [], [{"passed": True, "results": []}])
+        original = orch.builder
+        class MutatingAdapter:
+            def call(self, request):
+                result = original.call(request)
+                orch.context_hashes["AGENTS.md"] = "changed"
+                return result
+        orch.builder = MutatingAdapter()
+        result = orch.run()
+        self.assertEqual(result.status, "INFRASTRUCTURE_FAILED")
+        self.assertIn("Canonical context changed", result.payload["infrastructure_error"]["message"])
+
+    def test_builder_cannot_write_canonical_context(self):
+        response = builder_response()
+        response["operations"] = [{"type": "write_text", "path": "context/current-state.md", "content": "mutated"}]
+        orch = self.make([response], [], [])
+        result = orch.run()
+        self.assertEqual(result.status, "INFRASTRUCTURE_FAILED")
+        self.assertIn("attempted to modify canonical context", result.payload["infrastructure_error"]["message"])
 
     def test_subscription_mode_claude_mock(self):
         payload = json.dumps({"result": json.dumps(builder_response())})
